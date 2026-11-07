@@ -12,6 +12,14 @@
 - Ton: prozedurale SFX + Publikumsatmo (`tools/make-sfx.mjs`), Ducking-Mux vorbereitet.
 - Sprache: ElevenLabs-Pipeline (`tools/generate_voice.mjs`) mit Voice-IDs aus `config/voices.json`, Fehlerabbruch ohne Fallback, Trockenlauf als Standard.
 
+**Vorschau im Repo:** `docs/previews/test-fight-v0.1-720p.mp4` (14,7 s, mit SFX, ohne Sprache) und `docs/previews/test-fight-contact-sheet.png` (Bildfolge, 1,5 Bilder/s).
+
+**Bekannte Schwächen (aus der Bildfolge)**
+- Zwei Kameraschnitte (Landung, Siegerpose) werden teilweise von Eckpfosten/Seilen verdeckt.
+- Der Kommentator-Cutaway ist unscharf/zu dunkel; Kommentator ist kaum erkennbar.
+- Endcard-Text und Untertitel überlappen am Schluss leicht.
+- Newton-Gesicht wird vom Perückenrand teils verdeckt; Aufladungs-Aura überbelichtet in der Nahaufnahme.
+
 **Noch nicht gemacht / offen**
 - **Keine Sprache erzeugt** (es wurden keine ElevenLabs-Credits verbraucht). Die Einstein-Sprachprobe ist vorbereitet (`node tools/generate_voice.mjs --sample einstein --yes`), wartet aber auf Zustimmung.
 - Echte Audiodauern → Timing der Dialoge prüfen (Tool meldet Überlappungen).
