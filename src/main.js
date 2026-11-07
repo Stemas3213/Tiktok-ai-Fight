@@ -58,7 +58,7 @@ world.render = render;
 
 let choreo = null;
 if (params.get('choreo') !== '0') {
-  try { const m = await import('./choreo.js'); choreo = await m.createFight(world); } catch (e) { console.warn('Keine Choreografie:', e); }
+  try { const m = await import('./engine.js'); choreo = await m.createFight(world, params.get('ep') || 'test-fight'); } catch (e) { console.warn('Keine Choreografie:', e); }
 }
 if (choreo) {
   window.__fight = choreo;

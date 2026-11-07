@@ -30,6 +30,11 @@ const S = {
   hum(t, v = 1) { add(t, (x) => (sine(110 + 160 * x, x) + 0.4 * sine(220 + 320 * x, x)) * 0.18 * Math.min(1, x * 4) * (1 - Math.min(1, x / 1.4) * 0.3), 1.4, v * 0.6); },
   charge(t, v = 1) { add(t, (x) => { const f = 90 * Math.pow(10, Math.min(1, x / 1.0)); return (sine(f, x) + 0.5 * sine(f * 2.01, x) + 0.25 * sine(f * 3, x)) * 0.17 * (0.5 + 0.5 * sine(18 + 20 * x, x)) * Math.min(1, x * 5); }, 1.15, v * 0.8); },
   count(t, v = 1) { const l = new LP(3000); add(t, (x) => l.p(rnd()) * Math.exp(-x * 70) * 1.2 + sine(900, x) * Math.exp(-x * 40) * 0.4, 0.15, v * 0.4); },
+  block(t, v = 1) { const l = new LP(3500); add(t, 0.3, (x) => (sine(310, x) * 0.5 + sine(870, x) * 0.3) * Math.exp(-x * 26) + l.p(rnd()) * Math.exp(-x * 45) * 0.8, 0.3, v * 0.6); },
+  tap(t, v = 1) { const l = new LP(5000); add(t, 0.12, (x) => l.p(rnd()) * Math.exp(-x * 70) + sine(900 * Math.exp(-x * 20) + 300, x) * Math.exp(-x * 40) * 0.6, 0.12, v * 0.5); },
+  boing(t, v = 1) { add(t, 0.6, (x) => sine(220 + 260 * Math.sin(x * 18) * Math.exp(-x * 4) + 120 * Math.exp(-x * 6), x) * Math.exp(-x * 5), 0.6, v * 0.35); },
+  growl(t, v = 1) { const l = new LP(260); add(t, 1.2, (x) => (sine(70 + 12 * sine(8, x), x) * 0.8 + l.p(rnd()) * 1.5) * Math.sin(Math.PI * Math.min(1, x / 1.2)), 1.2, v * 0.5); },
+  bell2(t, v = 1) { S.bell(t + 0.4, v * 0.8); },
   crowd() {}, cheer() {}, laugh() {},
 };
 

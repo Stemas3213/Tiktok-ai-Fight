@@ -1,0 +1,202 @@
+{
+  "episode": "part1",
+  "title": "AI FIGHT CLUB – Part 1: Runde 1 (Newton vs. Einstein)",
+  "language": "de",
+  "note": "Quelle fuer Untertitel UND ElevenLabs-Sprache. 'at' = [Anker, Offset in Sim-Sekunden] aus src/episodes/part1.js; 'dur' = echte ElevenLabs-Audiodauer. Wiederverwendet aus dem Testkampf: p1_k10 (k02), p1_n03 (n01), p1_e02 (e01) - Text identisch.",
+  "cues": [
+    {
+      "id": "p1_k01",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "cold",
+        0.1
+      ],
+      "dur": 4.55,
+      "text": "Zwei Genies. Ein Ring. Und heute fliegen nicht nur die Fäuste!"
+    },
+    {
+      "id": "p1_n01",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "prov",
+        0.5
+      ],
+      "dur": 6.92,
+      "text": "Ich habe die Schwerkraft erklärt. Dich schicke ich gleich zu Boden!"
+    },
+    {
+      "id": "p1_e01",
+      "speaker": "E",
+      "voice": "einstein",
+      "delivery": "warm",
+      "at": [
+        "prov",
+        8.4
+      ],
+      "dur": 4.08,
+      "text": "Entspann dich, Isaac. Deine Niederlage ist relativ sicher."
+    },
+    {
+      "id": "p1_k02",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "prov",
+        13.0
+      ],
+      "dur": 2.22,
+      "text": "Man kann die Spannung förmlich messen!"
+    },
+    {
+      "id": "p1_k03",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "fight",
+        -0.55
+      ],
+      "dur": 1.8,
+      "text": "Gong! Runde eins!"
+    },
+    {
+      "id": "p1_k04",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "fight",
+        1.3
+      ],
+      "dur": 2.35,
+      "text": "Einstein weicht aus wie ein Lichtstrahl!"
+    },
+    {
+      "id": "p1_k10",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "fight",
+        3.7
+      ],
+      "dur": 2.59,
+      "text": "Newton greift an – Einstein kontert!"
+    },
+    {
+      "id": "p1_n03",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "fight",
+        9.1
+      ],
+      "dur": 2.93,
+      "text": "Gravitation, mein Lieber!"
+    },
+    {
+      "id": "p1_k05",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "fight",
+        12.0
+      ],
+      "dur": 2.4,
+      "text": "Ein Apfel! Das gibt eine Beule!"
+    },
+    {
+      "id": "p1_k06",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "fight",
+        14.5
+      ],
+      "dur": 1.7,
+      "text": "Einstein steckt in der Klemme!"
+    },
+    {
+      "id": "p1_e02",
+      "speaker": "E",
+      "voice": "einstein",
+      "delivery": "determined",
+      "at": [
+        "fight",
+        17.0
+      ],
+      "dur": 1.8,
+      "text": "E gleich m c Quadrat!"
+    },
+    {
+      "id": "p1_k07",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "upper",
+        0.6
+      ],
+      "dur": 3.11,
+      "text": "Was für ein Hammer! Das war relativ gewaltig!"
+    },
+    {
+      "id": "p1_k08",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "land",
+        2.4
+      ],
+      "dur": 2.46,
+      "text": "Er geht zu Boden! Steht er wieder auf?"
+    },
+    {
+      "id": "p1_n02",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "land",
+        5.4
+      ],
+      "dur": 3.47,
+      "text": "Du glaubst, das war schon alles?"
+    },
+    {
+      "id": "p1_k09",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "bellEnd",
+        0.5
+      ],
+      "dur": 1.99,
+      "text": "Und das war erst die ERSTE RUNDE!"
+    }
+  ],
+  "speakers": {
+    "K": {
+      "name": "KOMMENTATOR",
+      "color": "#ffd24a"
+    },
+    "N": {
+      "name": "NEWTON",
+      "color": "#ff6a6a"
+    },
+    "E": {
+      "name": "EINSTEIN",
+      "color": "#6ab0ff"
+    }
+  }
+}

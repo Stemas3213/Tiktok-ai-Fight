@@ -44,8 +44,8 @@ export function strike(o = {}) {
           const end = _a.copy(chin).addScaledVector(fa, -0.3).addScaledVector(l, o.hit ? 0 : side * 0.5); end.y += o.hit ? 0.1 : 0.35;
           world = lerpV(start, end, easeOutCubic(k), new THREE.Vector3()); world.y += Math.sin(k * Math.PI) * 0.1;
         } else {
-          world = _b.copy(head).addScaledVector(fa, o.hit ? -0.36 : -0.26);
-          if (!o.hit) world.addScaledVector(l, -side * 0.42).add(_a.set(0, 0.06, 0));
+          if (o.hit) world = _b.copy(head).addScaledVector(fa, -0.36);
+          else { world = _b.set(opp.pos.x, o.aim === 'body' ? 1.3 : 1.9, opp.pos.z).addScaledVector(fa, -0.3); }   // knapp vorbei: Handschuh fliegt durch die Stelle, die der Kopf gerade verlassen hat
         }
         const tl = f.rig.torso.worldToLocal(world.clone());
         if (e < 0) out.copy(guard).add(_a.set(0, 0.02 * e, e * 0.28)); else lerpV(guard, tl, e, out);
@@ -126,7 +126,7 @@ export function stare(dur = 1.0) { return { dur, fn(u, P) { P.face = 'shock'; P.
 export function flight(t0, p) {
   const g = p.g || 9.8, Tf = 2 * p.v[2] / g, spins = p.spins ?? 1;
   const pitchEnd = -(Math.PI / 2 + spins * 2 * Math.PI);
-  const total = Tf + 3.5;
+  const total = Tf + (p.hold ?? 3.5);
   return {
     dur: total, Tf,
     fn(u, P, f) {
@@ -156,4 +156,43 @@ export function flight(t0, p) {
       }
     },
   };
+}
+
+// ---------- Zusaetzliche Aktionen fuer Part 1 ----------
+export function shrug(dur = 1.2) {
+  return { dur, fn(u, P) { const b = bell(u, 0, 0.25, dur); for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? 0.62 : -0.62, 0.62 + 0.06 * Math.sin(u * 5), 0.28); h.roll = 0; } P.headRoll += 0.18 * b; P.torsoPitch += -0.05 * b; P.face = 'happy'; P.hipsDrop -= 0.02 * b; } };
+}
+export function wave(dur = 1.2) {
+  return { dur, fn(u, P) { const b = bell(u, 0, 0.2, dur); const h = P.hand.R; h.w = b; h.pos.set(-0.3 - 0.1 * Math.sin(u * 14), 1.2, 0.22); P.headRoll += -0.12 * b; P.face = 'happy'; } };
+}
+export function pointAt(hand = 'R', dur = 1.2) {
+  return { dur, fn(u, P, f) {
+    const b = bell(u, 0, 0.2, dur); const h = P.hand[hand]; h.w = b;
+    h.fn = (out) => { const w = f.opp.headWorld.clone(); w.y -= 0.2; const tl = f.rig.torso.worldToLocal(w); const dir = tl.clone().normalize(); out.copy(dir.multiplyScalar(Math.min(0.95, tl.length() - 0.5))).add(new THREE.Vector3(0, 0.45, 0)); };
+    P.torsoTwist += (hand === 'R' ? 0.4 : -0.4) * b; P.torsoPitch += 0.12 * b; P.face = 'shout';
+  } };
+}
+export function gloveBang(dur = 1.0) {
+  return { dur, fn(u, P) { const b = bell(u, 0, 0.12, dur); const x = 0.14 + 0.16 * Math.max(0, Math.sin(u * 16)); for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? x : -x, 0.72, 0.5); } P.torsoPitch += 0.08 * b; P.face = 'grit'; } };
+}
+export function angry(dur = 1.5) {
+  return { dur, fn(u, P) { const b = bell(u, 0, 0.2, dur); P.torsoRoll += 0.05 * Math.sin(u * 40) * b; P.hipsDrop += 0.04 * Math.abs(Math.sin(u * 30)) * b; P.face = 'grit'; P.stance = 1 + 0.1 * b; P.hairPuff = Math.max(P.hairPuff, 0.3 * b); P.torsoPitch += 0.15 * b; for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? 0.28 : -0.28, 0.45, 0.35); } } };
+}
+export function spinOut(dur = 1.0) {
+  return { dur, fn(u, P) { const k = smooth(u / dur); P.bodyYaw += Math.PI * 2 * k; P.torsoRoll += 0.2 * Math.sin(u * 12) * (1 - k); P.face = 'shock'; P.guardW = 0.3; P.off.z += 0.2 * Math.sin(Math.PI * k); } };
+}
+export function showboat(dur = 1.6) {     // Ali-Shuffle
+  return { dur, fn(u, P) { const b = bell(u, 0, 0.2, dur); const s = Math.sin(u * 14); P.off.z += 0.12 * s * b; P.hipsDrop += 0.05 * Math.abs(s) * b; P.face = 'happy'; const h = P.hand.R; h.w = b; h.pos.set(-0.3, 0.55 + 0.12 * Math.sin(u * 14 + 1), 0.35 + 0.15 * Math.sin(u * 14)); const hl = P.hand.L; hl.w = b; hl.pos.set(0.3, 0.7, 0.4); P.headRoll += 0.15 * s * b; } };
+}
+export function getUp(dur = 2.2) {
+  return { dur, fn(u, P, f) {
+    f.airborne = true; const k = clamp(u / dur);
+    P.bodyPitch = -Math.PI / 2 * (1 - smooth(seg(k, 0.05, 0.8)));
+    P.hipsY = lerp(0.2, 0.99, smooth(seg(k, 0.2, 1)));
+    const b = Math.sin(Math.PI * seg(k, 0.0, 0.95)) * (1 - k * 0.6);
+    P.fk = { L: { hip: -1.05 * b + 0.1 * (1 - k), knee: 1.35 * b + 0.08 * (1 - k), splay: 0.12 * (1 - k) }, R: { hip: -0.7 * b, knee: 1.1 * b, splay: -0.12 * (1 - k) } };
+    for (const sd of ['L', 'R']) { const h = P.hand[sd], s2 = sd === 'L' ? 1 : -1; h.w = 1 - smooth(seg(k, 0.6, 0.85)); h.pos.set(s2 * (0.65 - 0.2 * k), 0.15 + 0.1 * Math.sin(u * 3), -0.05 + 0.5 * k); }
+    P.torsoRoll += 0.2 * Math.sin(u * 8) * k * (1 - k) * 2; P.headPitch += 0.25 * (1 - k) + 0.12 * Math.sin(u * 7) * (1 - k);
+    P.face = k < 0.8 ? 'dizzy' : 'grit';
+  } };
 }

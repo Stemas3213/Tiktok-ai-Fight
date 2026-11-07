@@ -162,7 +162,7 @@ export class FX {
       const c = A.f.chestWorld; this.aura.visible = this.aura2.visible = true;
       const pulse = 1 + 0.06 * Math.sin(t * 28);
       this.aura.position.copy(c); this.aura2.position.copy(c); this.aura.scale.set(0.9, 1.4, 0.9).multiplyScalar(f * pulse * (0.7 + 0.3 * A.power)); this.aura2.scale.copy(this.aura.scale).multiplyScalar(1.03);
-      this.aura.material.opacity = 0.14 * f; this.aura2.material.opacity = 0.05 * f; this.auraLight.position.copy(c); this.auraLight.intensity = 9 * f * A.power;
+      this.aura.material.opacity = 0.09 * f; this.aura2.material.opacity = 0.03 * f; this.auraLight.position.copy(c); this.auraLight.intensity = 9 * f * A.power;
     } else { this.aura.visible = this.aura2.visible = false; this.auraLight.intensity = 0; }
     // Treffer-Lichtblitz
     const fu = (t - this.flashT) / 0.16; this.flashLight.position.copy(this.flashPos); this.flashLight.intensity = fu >= 0 && fu < 1 ? 28 * (1 - fu) : 0;

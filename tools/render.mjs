@@ -20,7 +20,7 @@ const browser = await playwright.chromium.launch({ args: ['--use-gl=angle', '--u
 const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
 page.on('console', (m) => { const t = m.text(); if (!t.startsWith('[vite]')) console.log('[page]', t); });
 page.on('pageerror', (e) => console.log('[pageerror]', e.message));
-await page.goto(`http://127.0.0.1:${port}/?render=1&w=${W}&h=${H}`);
+await page.goto(`http://127.0.0.1:${port}/?render=1&w=${W}&h=${H}&ep=${args.ep || 'test-fight'}`);
 await page.waitForFunction(() => window.__ready === true, null, { timeout: 180000 });
 
 if (args.contact) {

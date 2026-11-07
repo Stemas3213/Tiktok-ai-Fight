@@ -48,7 +48,7 @@ export class Fighter {
     this.hairBase = this.rig.hairNodes;
     this.gloveFlash = 0;
     this.stepScale = 1;
-    this.blade = -0.42; this.guard = GUARD; this.bounceAmp = 1;
+    this.blade = -0.42; this.guard = GUARD; this.bounceAmp = 1; this.talk = false; this.talkOpen = 'shout';
   }
 
   get headWorld() { const v = new THREE.Vector3(); this.rig.head.updateWorldMatrix(true, false); return this.rig.head.localToWorld(v.set(0, DIM.head * 0.5, 0)); }
@@ -77,6 +77,7 @@ export class Fighter {
       this.vel.addScaledVector(tmp, -w).multiplyScalar(ex);
       this.pos.copy(this.target).add(ch.add(tmp).multiplyScalar(ex));
     }
+    if (!this.airborne) { const L = 3.0; this.pos.x = clamp(this.pos.x, -L, L); this.pos.z = clamp(this.pos.z, -L, L); this.target.x = clamp(this.target.x, -L, L); this.target.z = clamp(this.target.z, -L, L); }
     // Blickrichtung
     if (this.opp && P.yawOverride === null) {
       const d = _v.subVectors(this.opp.pos, this.pos);
@@ -112,6 +113,7 @@ export class Fighter {
     R.head.position.y = 0.06;
     // Gesichtsausdruck
     let expr = P.face || this.defaultExpr || 'grit';
+    if (this.talk && P.face !== 'dizzy') expr = Math.sin(t * 17) > 0 ? this.talkOpen : (P.face || this.defaultExpr || 'grit');
     if (t < this.hurtUntil && P.face !== 'dizzy') expr = 'hurt';
     if (expr !== this.expr) { R.faceMat.map = R.faces[expr]; R.faceMat.needsUpdate = true; this.expr = expr; }
     // Haar-Wackeln
