@@ -3,3 +3,7 @@
 .env.*
 *.key
 secrets/
+node_modules/
+out/
+episodes/*/audio/
+.DS_Store

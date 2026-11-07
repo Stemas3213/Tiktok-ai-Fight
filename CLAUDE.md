@@ -46,7 +46,7 @@ Sämtliche gesprochenen Stimmen (Erzähler und Charaktere) werden **ausschließl
 |---|---|---|---|
 | Erzähler | „Helmut Stieglbauer – Deep and Dynamic“ (der in diesem Projekt als „German Narrator“ gemeinte Erzähler, vom Nutzer gewählt) | `JiW03c2Gt43XNUQAumRP` | **fest, nicht ändern** |
 | Isaac Newton | „Victor Voss – Sinister Villain“ | `BxoyaO1xuQUNkP2tJIrR` | **fest, nicht ändern** |
-| Albert Einstein | „Christian Plasa – Warm Voice“ (vom Nutzer genannt als „Christian – Warm and Captivating“) | `NBqeXKdZHweef6y0B67V` | **fest – Namensabgleich wartet auf Bestätigung des Nutzers** |
+| Albert Einstein | „Christian Plasa – Warm Voice“ (Beschreibung „A warm and captivating narrator voice“; vom Nutzer bestätigt am 2026-11-07) | `NBqeXKdZHweef6y0B67V` | **fest, nicht ändern** |
 
 Die maschinenlesbare Konfiguration liegt in [`config/voices.json`](config/voices.json) (ohne Geheimnisse, zuletzt geprüft am 2026-11-07). Code liest die Voice-IDs ausschließlich von dort.
 
@@ -55,3 +55,11 @@ Die maschinenlesbare Konfiguration liegt in [`config/voices.json`](config/voices
 **Achtung Namensdopplung:** Es gibt in ElevenLabs auch „Victor Voss – Conversational Male Voice“ (`KSGYe0fMqoZR5BREvtf1`, Englisch) – das ist **nicht** Newtons Stimme. Newton ist ausschließlich `BxoyaO1xuQUNkP2tJIrR`.
 
 > Die Voice-IDs dürfen nur aus der ElevenLabs-Stimmenliste (oder vom Nutzer) stammen, nie geraten oder aus dem Gedächtnis eingetragen werden. Neue Figuren erhalten erst nach Auswahl durch den Nutzer eine Stimme und werden dann hier und in `config/voices.json` ergänzt.
+
+## Entwicklung & Arbeitsregeln
+
+- **Repo-Scope:** Gearbeitet wird ausschließlich in `Stemas3213/Tiktok-ai-Fight`. Das Geschichtenprojekt darf nicht verändert werden.
+- **Keine kostenpflichtigen Dienste ohne Zustimmung des Nutzers.** Das gilt ausdrücklich auch für ElevenLabs-Credits: Sprachproben und Folgen-Sprache (`tools/generate_voice.mjs --yes`, MCP-Tools wie `creative_generate_speech`) erst **nach Rückfrage**. Der Trockenlauf ohne `--yes` ist frei.
+- **Einstein-Sprachprobe:** Sobald die Sprachausgabe läuft, kurze deutsche Probe erzeugen (vorher fragen, da Credits). Klingt die Stimme auf Deutsch nicht natürlich, den Nutzer informieren – **niemals selbst die Stimme wechseln**.
+- Technik: Three.js, prozedurale Animation, Rendering über `tools/render.mjs`. Details in `README.md`, Fortschritt in `docs/PROGRESS.md` (bei jeder größeren Änderung aktualisieren).
+- Dialogtexte stehen nur in `episodes/<folge>/script.json` und referenzieren Stimmen über Schlüssel aus `config/voices.json`; Voice-IDs nie im Code duplizieren.

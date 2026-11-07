@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI FIGHT CLUB</title>
+<style>
+  @font-face { font-family: 'Bangers'; src: url('/node_modules/@fontsource/bangers/files/bangers-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Lilita One'; src: url('/node_modules/@fontsource/lilita-one/files/lilita-one-latin-400-normal.woff2') format('woff2'); }
+  html, body { margin: 0; background: #000; overflow: hidden; height: 100%; }
+  #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: top left; background: #000; overflow: hidden; }
+  canvas#gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #hud, #fxlayer, #caps { position: absolute; inset: 0; pointer-events: none; font-family: 'Lilita One', 'Arial Black', sans-serif; }
+  .bar { position: absolute; top: 150px; width: 400px; height: 34px; background: #0008; border: 4px solid #fff; border-radius: 10px; overflow: hidden; transform: skewX(-12deg); }
+  .bar > i { position: absolute; inset: 0; transform-origin: left; }
+  .bar.l { left: 50px; } .bar.r { right: 50px; } .bar.r > i { transform-origin: right; }
+  .bar.l > i { background: linear-gradient(#ff6a6a, #c3141f); } .bar.r > i { background: linear-gradient(#6ab0ff, #1f4bd8); }
+  .bar > b { position: absolute; inset: 0; background: #ffe066; transform-origin: left; opacity: .9; }
+  .bar.r > b { transform-origin: right; }
+  .nm { position: absolute; top: 96px; font-size: 40px; color: #fff; text-shadow: 0 4px 0 #000, 0 0 12px #000; letter-spacing: 1px; }
+  .nm.l { left: 56px; } .nm.r { right: 56px; }
+  #logo { position: absolute; top: 94px; left: 50%; transform: translateX(-50%); text-align: center; font-size: 34px; color: #ffd24a; text-shadow: 0 4px 0 #000; line-height: .95; }
+  #logo small { display: block; font-size: 24px; color: #fff; }
+  #caption { position: absolute; left: 60px; right: 60px; bottom: 360px; text-align: center; font-size: 62px; line-height: 1.12; color: #fff; text-shadow: 0 5px 0 #000, 0 0 18px #000a; -webkit-text-stroke: 3px #000; paint-order: stroke fill; }
+  #caption .sp { display: block; font-size: 34px; margin-bottom: 6px; letter-spacing: 2px; }
+  .pop { position: absolute; font-family: 'Bangers', 'Lilita One', sans-serif; color: #fff; -webkit-text-stroke: 8px #000; paint-order: stroke fill; text-shadow: 0 8px 0 #000a; white-space: nowrap; transform-origin: center; }
+  #vig { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 55%, #000a 100%); }
+  #flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+  #lines { position: absolute; inset: 0; opacity: 0; mix-blend-mode: screen;
+    background: repeating-conic-gradient(from 0deg at 50% 50%, #fff 0deg 1.2deg, transparent 1.2deg 6deg);
+    -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, #000 80%); mask-image: radial-gradient(ellipse at center, transparent 30%, #000 80%); }
+  #endcard { position: absolute; inset: 0; display: flex; align-items: center; justify-content: flex-end; padding-bottom: 470px; box-sizing: border-box; flex-direction: column; opacity: 0; color: #ffd24a; font-size: 84px; text-align: center; text-shadow: 0 8px 0 #000; -webkit-text-stroke: 8px #000; paint-order: stroke fill; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl"></canvas>
+  <div id="fxlayer"><div id="vig"></div><div id="lines"></div><div id="flash"></div></div>
+  <div id="hud">
+    <div class="nm l" id="nmL">ISAAC NEWTON</div><div class="nm r" id="nmR">ALBERT EINSTEIN</div>
+    <div class="bar l"><b id="lagL"></b><i id="hpL"></i></div><div class="bar r"><b id="lagR"></b><i id="hpR"></i></div>
+    <div id="logo">AI FIGHT CLUB<small id="roundTxt">RUNDE 1</small></div>
+  </div>
+  <div id="caps"><div id="caption"></div></div>
+  <div id="endcard"></div>
+</div>
+<script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/", "three/examples/jsm/": "/node_modules/three/examples/jsm/" } }</script>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

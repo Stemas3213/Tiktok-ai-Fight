@@ -1,5 +1,5 @@
 {
-  "_comment": "Feste Stimmenverteilung AI FIGHT CLUB. Aenderungen nur mit ausdruecklicher Zustimmung des Projektinhabers. Enthaelt keine Geheimnisse; der API-Schluessel kommt ausschliesslich aus der Umgebungsvariable ELEVENLABS_API_KEY.",
+  "_comment": "Feste Stimmenverteilung AI FIGHT CLUB. Aenderungen nur mit ausdruecklicher Zustimmung des Projektinhabers. Enthaelt keine Geheimnisse; der API-Schluessel kommt ausschliesslich aus der Umgebungsvariable ELEVENLABS_API_KEY. Die Voice-IDs sind final und duerfen nur mit ausdruecklicher Zustimmung des Projektinhabers geaendert werden. Credits (Sprachproben/Folgen) nur nach Rueckfrage verbrauchen.",
   "provider": "elevenlabs",
   "language": "de",
   "locked": true,
@@ -19,7 +19,42 @@
       "character": "Albert Einstein",
       "elevenlabs_name": "Christian Plasa - Warm Voice",
       "voice_id": "NBqeXKdZHweef6y0B67V",
-      "pending_confirmation": "Vom Nutzer genannt als 'Christian - Warm and Captivating'; diese Stimme heisst in ElevenLabs 'Christian Plasa - Warm Voice' (Beschreibung: 'warm and captivating narrator voice'). Zuordnung wartet auf Bestaetigung."
+      "confirmed_by_user": "2026-11-07"
+    }
+  },
+  "model_id": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "default_voice_settings": {
+    "stability": 0.45,
+    "similarity_boost": 0.8,
+    "style": 0.35,
+    "use_speaker_boost": true
+  },
+  "delivery_presets": {
+    "energetic": {
+      "stability": 0.3,
+      "style": 0.65,
+      "speed": 1.08
+    },
+    "excited": {
+      "stability": 0.25,
+      "style": 0.8,
+      "speed": 1.1
+    },
+    "smug": {
+      "stability": 0.4,
+      "style": 0.55,
+      "speed": 0.98
+    },
+    "determined": {
+      "stability": 0.4,
+      "style": 0.6,
+      "speed": 1.0
+    },
+    "warm": {
+      "stability": 0.5,
+      "style": 0.35,
+      "speed": 1.0
     }
   }
 }
