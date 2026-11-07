@@ -1,0 +1,25 @@
+{
+  "_comment": "Feste Stimmenverteilung AI FIGHT CLUB. Aenderungen nur mit ausdruecklicher Zustimmung des Projektinhabers. Enthaelt keine Geheimnisse; der API-Schluessel kommt ausschliesslich aus der Umgebungsvariable ELEVENLABS_API_KEY.",
+  "provider": "elevenlabs",
+  "language": "de",
+  "locked": true,
+  "verified_on": "2026-11-07",
+  "voices": {
+    "narrator": {
+      "character": "Hauptkommentator",
+      "elevenlabs_name": "Helmut Stieglbauer - Deep and Dynamic",
+      "voice_id": "JiW03c2Gt43XNUQAumRP"
+    },
+    "newton": {
+      "character": "Isaac Newton",
+      "elevenlabs_name": "Victor Voss - Sinister Villain",
+      "voice_id": "BxoyaO1xuQUNkP2tJIrR"
+    },
+    "einstein": {
+      "character": "Albert Einstein",
+      "elevenlabs_name": "Christian Plasa - Warm Voice",
+      "voice_id": "NBqeXKdZHweef6y0B67V",
+      "pending_confirmation": "Vom Nutzer genannt als 'Christian - Warm and Captivating'; diese Stimme heisst in ElevenLabs 'Christian Plasa - Warm Voice' (Beschreibung: 'warm and captivating narrator voice'). Zuordnung wartet auf Bestaetigung."
+    }
+  }
+}

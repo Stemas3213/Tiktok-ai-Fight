@@ -35,7 +35,8 @@ Sämtliche gesprochenen Stimmen (Erzähler und Charaktere) werden **ausschließl
 ### 4. Audioqualität
 
 - Klare Stimmen ohne Hintergrundrauschen.
-- Natürliche Betonung und passende Emotionen.
+- Natürliche Betonung und passende Emotionen (Newton kalt-spöttisch, Einstein warm und neugierig, Kommentator energisch und humorvoll).
+- Natürliche deutsche Aussprache: Texte ausschließlich auf Deutsch schreiben; Namen und Fachbegriffe bei Bedarf phonetisch absichern und das Ergebnis vor dem Einbau anhören bzw. transkribieren und prüfen.
 - Hintergrundmusik und Soundeffekte sind erlaubt, müssen aber **deutlich leiser als die Sprecher** sein (Ducking unter Sprache).
 - **Keine überlappenden Dialoge**, außer es ist ausdrücklich gewollt.
 
@@ -44,7 +45,13 @@ Sämtliche gesprochenen Stimmen (Erzähler und Charaktere) werden **ausschließl
 | Rolle | ElevenLabs-Stimme | Voice-ID | Status |
 |---|---|---|---|
 | Erzähler | „Helmut Stieglbauer – Deep and Dynamic“ (der in diesem Projekt als „German Narrator“ gemeinte Erzähler, vom Nutzer gewählt) | `JiW03c2Gt43XNUQAumRP` | **fest, nicht ändern** |
-| Newton | – | – | offen |
-| Einstein | – | – | offen |
+| Isaac Newton | „Victor Voss – Sinister Villain“ | `BxoyaO1xuQUNkP2tJIrR` | **fest, nicht ändern** |
+| Albert Einstein | „Christian Plasa – Warm Voice“ (vom Nutzer genannt als „Christian – Warm and Captivating“) | `NBqeXKdZHweef6y0B67V` | **fest – Namensabgleich wartet auf Bestätigung des Nutzers** |
 
-> Die Voice-IDs dürfen nur aus der ElevenLabs-Stimmenliste (oder vom Nutzer) stammen, nie geraten oder aus dem Gedächtnis eingetragen werden. Charakterstimmen mit Status „offen“ werden erst nach Auswahl durch den Nutzer erzeugt.
+Die maschinenlesbare Konfiguration liegt in [`config/voices.json`](config/voices.json) (ohne Geheimnisse, zuletzt geprüft am 2026-11-07). Code liest die Voice-IDs ausschließlich von dort.
+
+**Stimmen sind gesperrt:** Die obige Zuordnung gilt für die gesamte Serie. Keine Stimme darf ohne **ausdrückliche Zustimmung des Nutzers** geändert, ersetzt oder „verbessert“ werden – auch nicht, wenn eine andere Stimme besser passen könnte. Vorschläge sind erlaubt, die Umsetzung erst nach Zustimmung.
+
+**Achtung Namensdopplung:** Es gibt in ElevenLabs auch „Victor Voss – Conversational Male Voice“ (`KSGYe0fMqoZR5BREvtf1`, Englisch) – das ist **nicht** Newtons Stimme. Newton ist ausschließlich `BxoyaO1xuQUNkP2tJIrR`.
+
+> Die Voice-IDs dürfen nur aus der ElevenLabs-Stimmenliste (oder vom Nutzer) stammen, nie geraten oder aus dem Gedächtnis eingetragen werden. Neue Figuren erhalten erst nach Auswahl durch den Nutzer eine Stimme und werden dann hier und in `config/voices.json` ergänzt.
