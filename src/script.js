@@ -6,7 +6,7 @@ export async function loadScript(episode = 'test-fight') {
 }
 
 export function buildScript(json) {
-  const cues = json.cues.map((c) => ({ ...c, est: Math.max(1.0, c.text.length / 13.5), outStart: null }));
+  const cues = json.cues.map((c) => ({ ...c, est: c.dur ?? Math.max(1.0, c.text.length / 13.5), outStart: null }));
   const V = json.speakers;
   return {
     cues,

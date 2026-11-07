@@ -20,9 +20,14 @@
 - Endcard-Text und Untertitel überlappen am Schluss leicht.
 - Newton-Gesicht wird vom Perückenrand teils verdeckt; Aufladungs-Aura überbelichtet in der Nahaufnahme.
 
+**Sprache (ElevenLabs, vom Nutzer freigegeben, Modell eleven_multilingual_v2)**
+- Einstein-Sprachprobe: `docs/previews/voice-sample-einstein.mp3` (5,5 s, ~86 Credits). Ob sie auf Deutsch natürlich klingt, muss der Nutzer beurteilen (nicht hörbar prüfbar durch Claude).
+- Eingesprochen: k02, n01, e01, k03 (`episodes/test-fight/audio/`, ~110 Credits), Timing ohne Überlappung geprüft.
+- **k01 („Willkommen beim AI Fight Club!“) fehlt noch** – der erste Aufruf wurde vom Sicherheitsfilter abgelehnt und nicht wiederholt.
+- Erzeugt über die ElevenLabs-MCP-Tools (Voice-IDs aus `config/voices.json`); dafür wurde `elevenlabsusercontent.com` in der Umgebung freigeschaltet, um die Dateien herunterzuladen.
+
 **Noch nicht gemacht / offen**
-- **Keine Sprache erzeugt** (es wurden keine ElevenLabs-Credits verbraucht). Die Einstein-Sprachprobe ist vorbereitet (`node tools/generate_voice.mjs --sample einstein --yes`), wartet aber auf Zustimmung.
-- Echte Audiodauern → Timing der Dialoge prüfen (Tool meldet Überlappungen).
+- Zeile k01 einsprechen, danach `tools/mux.mjs` neu ausführen.
 - Feinschliff: einige Kameraschnitte (Kommentator-Cutaway, Landung), Newton-Gesicht unter der Perücke, Lichtstimmung, Fan-Vielfalt.
 - Final in 1080×1920 rendern (CPU-Rendering ≈ 20–30 min).
 

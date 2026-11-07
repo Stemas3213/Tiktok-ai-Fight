@@ -2,17 +2,65 @@
   "episode": "test-fight",
   "title": "Testkampf: Newton vs. Einstein",
   "language": "de",
-  "note": "Einzige Quelle fuer Untertitel UND ElevenLabs-Sprachausgabe. 'sim' = Startzeit in Sim-Sekunden der Choreografie; die tatsaechliche Ausgabezeit schreibt tools/render.mjs nach out/test-fight.audio.json. 'voice' verweist auf config/voices.json (Voice-ID dort, nie hier).",
+  "note": "Einzige Quelle fuer Untertitel UND ElevenLabs-Sprachausgabe. 'sim' = Startzeit in Sim-Sekunden der Choreografie; die tatsaechliche Ausgabezeit schreibt tools/render.mjs nach out/test-fight.audio.json. 'voice' verweist auf config/voices.json (Voice-ID dort, nie hier). 'dur' = echte ElevenLabs-Audiodauer in Sekunden (sonst Schaetzung).",
   "cues": [
-    { "id": "k01", "speaker": "K", "voice": "narrator", "sim": 0.15, "delivery": "energetic", "text": "Willkommen beim AI Fight Club!" },
-    { "id": "k02", "speaker": "K", "voice": "narrator", "sim": 2.2,  "delivery": "energetic", "text": "Newton greift an – Einstein kontert!" },
-    { "id": "n01", "speaker": "N", "voice": "newton",   "sim": 4.95, "delivery": "smug",      "text": "Gravitation, mein Lieber!" },
-    { "id": "e01", "speaker": "E", "voice": "einstein", "sim": 7.3,  "delivery": "determined","text": "E gleich m c Quadrat!" },
-    { "id": "k03", "speaker": "K", "voice": "narrator", "sim": 9.9,  "delivery": "excited",   "text": "K.O.! Relativ schnell vorbei!" }
+    {
+      "id": "k01",
+      "speaker": "K",
+      "voice": "narrator",
+      "sim": 0.15,
+      "delivery": "energetic",
+      "text": "Willkommen beim AI Fight Club!"
+    },
+    {
+      "id": "k02",
+      "speaker": "K",
+      "voice": "narrator",
+      "sim": 2.2,
+      "delivery": "energetic",
+      "text": "Newton greift an – Einstein kontert!",
+      "dur": 2.59
+    },
+    {
+      "id": "n01",
+      "speaker": "N",
+      "voice": "newton",
+      "sim": 4.95,
+      "delivery": "smug",
+      "text": "Gravitation, mein Lieber!",
+      "dur": 2.93
+    },
+    {
+      "id": "e01",
+      "speaker": "E",
+      "voice": "einstein",
+      "sim": 7.75,
+      "delivery": "determined",
+      "text": "E gleich m c Quadrat!",
+      "dur": 1.8
+    },
+    {
+      "id": "k03",
+      "speaker": "K",
+      "voice": "narrator",
+      "sim": 9.9,
+      "delivery": "excited",
+      "text": "K.O.! Relativ schnell vorbei!",
+      "dur": 1.8
+    }
   ],
   "speakers": {
-    "K": { "name": "KOMMENTATOR", "color": "#ffd24a" },
-    "N": { "name": "NEWTON", "color": "#ff6a6a" },
-    "E": { "name": "EINSTEIN", "color": "#6ab0ff" }
+    "K": {
+      "name": "KOMMENTATOR",
+      "color": "#ffd24a"
+    },
+    "N": {
+      "name": "NEWTON",
+      "color": "#ff6a6a"
+    },
+    "E": {
+      "name": "EINSTEIN",
+      "color": "#6ab0ff"
+    }
   }
 }
