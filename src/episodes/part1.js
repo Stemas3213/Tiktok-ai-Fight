@@ -113,7 +113,7 @@ export async function build(ctx) {
   const callT = F + 9.2; const bonkT = F + 11.4;
   at(callT - 0.3, () => { N.target.set(-2.0, 0, 0); N.smoothTime = 0.4; });
   act(N, callT, callApple(1.5)); at(callT + 0.1, () => { sfx('hum', 0.8); excite(0.1); });
-  APPLE.spawn = callT + 0.3; APPLE.hit = bonkT; APPLE.y0 = 8.6;
+  APPLE.spawn = callT + 0.3; APPLE.hit = bonkT; APPLE.y0 = 5.6;   // unter dem Jumbotron (Oberkante 6,3 m), damit der Apfel sichtbar bleibt
   at(APPLE.spawn, () => { apple.visible = true; sfx('swoosh', 0.7); });
   act(E, callT + 0.7, lookUp(1.0, 0.6));
   at(bonkT, () => {
@@ -207,8 +207,8 @@ export async function build(ctx) {
   act(ref, A.bellEnd, { dur: 1.2, fn(u, P) { for (const s of ['L', 'R']) { const h = P.hand[s]; h.w = Math.min(1, u * 4); h.pos.set(s === 'L' ? 0.5 : -0.5, 0.75, 0.3); } } });
   cut(landT + 0.9, (u) => ({ pos: lv(N.pos.clone().add(V3(1.6, 2.6, 4.6)), N.pos.clone().add(V3(1.2, 2.4, 4.2)), u), look: N.pos.clone().add(V3(0, 0.3, 0)), fov: 52 }));
   cut(guT - 0.1, (u) => ({ pos: lv(N.pos.clone().add(V3(2.2, 1.4, 3.8)), N.pos.clone().add(V3(1.8, 1.7, 3.5)), u), look: N.pos.clone().add(V3(0, 0.8, 0)), fov: 40 }));
-  cut(guT + guD - 0.2, (u) => ({ pos: lv(N.pos.clone().add(V3(0.9, 0, 3.0)), N.pos.clone().add(V3(0.7, 0, 2.6)), u).setY(1.9), look: nh().add(V3(0.1, -0.1, 0)), fov: 28 }));
-  cut(guT + guD + 2.0, (u) => ({ pos: lv(E.pos.clone().add(V3(-1.8, 0, 2.2)), E.pos.clone().add(V3(-1.5, 0, 2.0)), u).setY(1.6), look: eh(), fov: 28 }));
+  cut(guT + guD - 0.2, (u) => ({ pos: lv(N.pos.clone().add(V3(1.7, 0, 1.5)), N.pos.clone().add(V3(1.4, 0, 1.3)), u).setY(2.5), look: nh().add(V3(0, -0.2, 0)), fov: 30 }));
+  cut(guT + guD + 1.9, (u) => ({ pos: lv(E.pos.clone().add(V3(-2.4, 0, 2.8)), E.pos.clone().add(V3(-2.1, 0, 2.5)), u).setY(2.4), look: eh().add(V3(0, -0.2, 0)), fov: 30 }));
   cut(A.bellEnd - 0.4, (u) => frame(0, 2.4 + 0.4 * u, 46, { minD: 6.5, margin: 1.5, lookY: 1.3 }));
 
   const END = A.bellEnd + 5.6; A.end = END;

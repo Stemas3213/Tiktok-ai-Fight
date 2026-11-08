@@ -23,9 +23,9 @@ let fc;
 if (voices.length) {
   const vl = voices.map((v, i) => `[${i + 2}:a]loudnorm=I=-17:TP=-2:LRA=7,adelay=${Math.round(v.outStart * 1000)}|${Math.round(v.outStart * 1000)}[v${i}]`).join(';');
   const vmix = voices.length > 1 ? `${voices.map((_, i) => `[v${i}]`).join('')}amix=inputs=${voices.length}:normalize=0[voice]` : '[v0]anull[voice]';
-  fc = `${vl};${vmix};[voice]asplit=2[vo1][vo2];${hasMusic ? `[1:a]volume=0.55[sx];[${mIdx}:a]volume=0.30[mu];[sx][mu]amix=inputs=2:normalize=0[bg]` : '[1:a]volume=0.55[bg]'};[bg][vo1]sidechaincompress=threshold=0.02:ratio=10:attack=15:release=350[bgd];[bgd][vo2]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[a]`;
+  fc = `${vl};${vmix};[voice]apad=whole_dur=${(meta.duration + 1).toFixed(2)},asplit=2[vo1][vo2];${hasMusic ? `[1:a]volume=0.55[sx];[${mIdx}:a]volume=0.30[mu];[sx][mu]amix=inputs=2:normalize=0[bg]` : '[1:a]volume=0.55[bg]'};[bg][vo1]sidechaincompress=threshold=0.02:ratio=10:attack=15:release=350[bgd];[bgd][vo2]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11,aresample=44100[a]`;
 } else fc = hasMusic ? `[1:a]volume=0.7[sx];[${mIdx}:a]volume=0.4[mu];[sx][mu]amix=inputs=2:normalize=0,alimiter=limit=0.95[a]` : '[1:a]volume=0.8,alimiter=limit=0.95[a]';
 const outFile = audioOnly ? final.replace(/\.mp4$/, '.mix.m4a') : final;
-const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', ...inputs, '-filter_complex', fc, ...(audioOnly ? [] : ['-map', '0:v', '-c:v', 'copy']), '-map', '[a]', '-c:a', 'aac', '-b:a', '192k', ...(audioOnly ? [] : ['-shortest']), outFile], { stdio: 'inherit' });
+const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', ...inputs, '-filter_complex', fc, ...(audioOnly ? [] : ['-map', '0:v', '-c:v', 'copy']), '-map', '[a]', '-c:a', 'aac', '-b:a', '192k', '-ar', '44100', '-ac', '2', ...(audioOnly ? [] : ['-shortest']), outFile], { stdio: 'inherit' });
 if (r.status !== 0) process.exit(r.status);
 console.log(`fertig: ${outFile} | Sprachspuren: ${voices.length}/${meta.cues.length}${missing.length ? ' (fehlend: ' + missing.join(', ') + ' -> noch nicht von ElevenLabs erzeugt)' : ''}`);

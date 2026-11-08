@@ -4,6 +4,11 @@ Animierte 3D-Kampfserie im Roblox-inspirierten Blockfiguren-Look (Hochformat 9:1
 
 Alles ist Code: Three.js-Szene → deterministisches Frame-Rendering (Playwright/Chromium) → ffmpeg. Keine kostenpflichtigen Dienste außer **ElevenLabs für Sprache** (nur nach Rücksprache).
 
+## Part 1 (Runde 1) – fertige Folge
+- Video: `releases/AI-FIGHT-CLUB_Part1_1080x1920.mp4` (≈59 s, 1080×1920, 30 fps, H.264/AAC, deutsche ElevenLabs-Stimmen)
+- Drehbuch: `docs/part1-drehbuch.md`, Skript-Quelle: `episodes/part1/script.json`, Choreografie: `src/episodes/part1.js`
+- Neu bauen: `node tools/render-parallel.mjs --ep part1 --out out/part1 && node tools/make-sfx.mjs out/part1.audio.json && node tools/make-music.mjs out/part1.audio.json && node tools/mux.mjs part1 part1`
+
 ## Schnellstart
 
 ```bash
