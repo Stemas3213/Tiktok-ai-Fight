@@ -2,7 +2,7 @@
   "episode": "part3",
   "title": "AI FIGHT CLUB – Part 3: Runde 3 – Das Finale (Newton vs. Einstein)",
   "language": "de",
-  "note": "Quelle fuer Untertitel UND ElevenLabs-Sprache. 'at' = [Anker, Offset in Sim-Sekunden] aus src/episodes/part3.js. 'est': Dauer geschaetzt (Audio noch nicht erzeugt). 'reuse' = Datei aus Part 1 wiederverwendet.",
+  "note": "Quelle fuer Untertitel UND ElevenLabs-Sprache. Alle 13 Zeilen neu fuer Part 3 erzeugt (keine Wiederverwendung aus Part 1/2). Einsteins Fluesterzeile mit eleven_v3 ([whispering]), alle anderen eleven_multilingual_v2. 'at' = [Anker, Offset in Sim-Sekunden] aus src/episodes/part3.js; 'dur' = echte Audiodauer.",
   "cues": [
     {
       "id": "p3_k01",
@@ -13,9 +13,8 @@
         "snap",
         0.05
       ],
-      "dur": 3.2,
-      "text": "Die Schwerkraft ist zurück – und Einstein am Boden!",
-      "est": true
+      "dur": 3.24,
+      "text": "Die Schwerkraft ist zurück – und Einstein am Boden!"
     },
     {
       "id": "p3_n01",
@@ -26,9 +25,8 @@
         "gloat",
         1.2
       ],
-      "dur": 4.6,
-      "text": "Gute Nacht, Albert. Die Schwerkraft gewinnt immer!",
-      "est": true
+      "dur": 5.04,
+      "text": "Gute Nacht, Albert. Die Schwerkraft gewinnt immer!"
     },
     {
       "id": "p3_k02",
@@ -39,9 +37,8 @@
         "count",
         0.2
       ],
-      "dur": 2.46,
-      "text": "Er geht zu Boden! Steht er wieder auf?",
-      "reuse": "p1_k08"
+      "dur": 2.4,
+      "text": "Er geht zu Boden! Steht er wieder auf?"
     },
     {
       "id": "p3_k03",
@@ -52,22 +49,20 @@
         "hush",
         -1.6
       ],
-      "dur": 2.4,
-      "text": "Das Publikum hält den Atem an …",
-      "est": true
+      "dur": 2.09,
+      "text": "Das Publikum hält den Atem an …"
     },
     {
-      "id": "p3_k06",
-      "speaker": "K",
-      "voice": "narrator",
-      "delivery": "excited",
+      "id": "p3_n02",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "whisper",
       "at": [
-        "fight",
-        2.2
+        "hush",
+        1.2
       ],
-      "dur": 3.4,
-      "text": "Newton gibt alles – Einstein geht in die Knie!",
-      "est": true
+      "dur": 4.86,
+      "text": "Bleib liegen … bitte, bleib liegen."
     },
     {
       "id": "p3_e01",
@@ -78,22 +73,20 @@
         "nine",
         0.4
       ],
-      "dur": 3.8,
-      "text": "Du hast eine Sache vergessen, Isaac … Zeit ist relativ.",
-      "est": true
+      "dur": 4.99,
+      "text": "Du hast eine Sache vergessen, Isaac … Zeit ist relativ."
     },
     {
-      "id": "p3_n02",
+      "id": "p3_n03",
       "speaker": "N",
       "voice": "newton",
       "delivery": "shock",
       "at": [
         "rise",
-        1.0
+        0.4
       ],
-      "dur": 2.0,
-      "text": "Das … ist unmöglich!",
-      "est": true
+      "dur": 3.71,
+      "text": "Das … ist unmöglich!"
     },
     {
       "id": "p3_k04",
@@ -102,11 +95,10 @@
       "delivery": "excited",
       "at": [
         "rise",
-        2.6
+        3.7
       ],
-      "dur": 3.0,
-      "text": "Er steht auf! Einstein steht wieder auf!",
-      "est": true
+      "dur": 2.82,
+      "text": "Er steht auf! Einstein steht wieder auf!"
     },
     {
       "id": "p3_k05",
@@ -114,25 +106,47 @@
       "voice": "narrator",
       "delivery": "excited",
       "at": [
+        "fight",
+        1.6
+      ],
+      "dur": 3.24,
+      "text": "Newton gibt alles – Einstein geht in die Knie!"
+    },
+    {
+      "id": "p3_k06",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "warm",
+      "at": [
+        "hit",
+        0.6
+      ],
+      "dur": 1.33,
+      "text": "Unglaublich …"
+    },
+    {
+      "id": "p3_k07",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
         "ten",
         0.5
       ],
-      "dur": 2.9,
-      "text": "Einstein gewinnt! Was für ein Finale!",
-      "est": true
+      "dur": 2.77,
+      "text": "Einstein gewinnt! Was für ein Finale!"
     },
     {
-      "id": "p3_n03",
+      "id": "p3_n04",
       "speaker": "N",
       "voice": "newton",
       "delivery": "warm",
       "at": [
         "ten",
-        4.6
+        4.8
       ],
-      "dur": 2.0,
-      "text": "Gut gekämpft, Albert.",
-      "est": true
+      "dur": 2.4,
+      "text": "Gut gekämpft, Albert."
     },
     {
       "id": "p3_e02",
@@ -143,9 +157,8 @@
         "ten",
         7.0
       ],
-      "dur": 2.7,
-      "text": "Danke, Isaac. Nur relativ knapp.",
-      "est": true
+      "dur": 2.4,
+      "text": "Danke, Isaac. Nur relativ knapp."
     }
   ],
   "speakers": {

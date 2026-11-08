@@ -42,7 +42,7 @@ export async function build(ctx) {
     sfx('crash', 1.0); sfx('sub', 1.0); sfx('fall', 1.0); shake(0.1); music(3.0); overlay.flash(0.5);
     const yNow = N.pos.y + yN + 0.25 * Math.sin(SNAP * 1.6), yEn = yE + 0.25 * Math.sin(SNAP * 1.6 + 2.1);
     act(N, SNAP, dropFrom(SNAP, { y0: yNow, pitch0: pAt(0.7, 0, pN), flat: false }));
-    act(E, SNAP, dropFrom(SNAP, { y0: yEn, pitch0: pAt(0.7, 2.1, pE), flat: true, lieYaw: -Math.PI / 2, hold: NINE + 4.2 - SNAP }));
+    act(E, SNAP, dropFrom(SNAP, { y0: yEn, pitch0: pAt(0.7, 2.1, pE), flat: true, lieYaw: -Math.PI / 2, hold: NINE + 5.4 - SNAP }));
     A.landN = SNAP + Math.sqrt(2 * yNow / 9.8); A.landE = SNAP + Math.sqrt(2 * yEn / 9.8);
     at(A.landN, () => { fx.puff(V3(N.pos.x, 0.2, N.pos.z), 8, { size: 0.7, color: '#cfd3ff', life: 0.9, spread: 2.2 }); shake(0.14); sfx('thud', 0.9); ropeWob(2, 0.1); });
     at(A.landE, () => { fx.puff(V3(E.pos.x, 0.2, E.pos.z), 12, { size: 0.9, color: '#cfd3ff', life: 1.1, spread: 2.8 }); fx.ring(E.pos.clone().add(V3(0, 0.05, 0)), { mode: 'ground', maxR: 2.8, life: 0.7, color: '#fff' }); shake(0.25); hitstop(0.1); sfx('thud', 1.3); ropeWob(3, 0.2); excite(0.8); setHp('E', 4); overlay.pop('WUMMS!', { x: 540, y: 1000 }, { size: 170, fill: '#cfd3ff', rot: 7, life: 0.8 }); music(0.7); });
@@ -88,12 +88,15 @@ export async function build(ctx) {
   cut(HUSH + 1.6, (u) => ({ pos: lv(N.pos.clone().add(V3(2.2, 0, 2.2)), N.pos.clone().add(V3(1.9, 0, 1.9)), u).setY(1.6), look: nh(), fov: 26 }));           // Newton in der Ecke, Zweifel
   cut(HUSH + 3.1, (u) => ({ pos: V3(0.9, 0.35, 2.2), look: V3(0.9, 0.9, 0), fov: 34 }));                                                                    // Schiedsrichter-Hand (Untersicht)
   cut(HUSH + 4.5, (u) => ({ pos: lv(eh().add(V3(-1.0, 1.7, 1.7)), eh().add(V3(-0.75, 1.3, 1.3)), u), look: eh().add(V3(-0.1, 0, 0)), fov: lerp(32, 26, u) }));  // Naheinstellung Gesicht
-  cut(NINE - 0.3, (u) => ({ pos: eh().add(V3(-0.6, 1.1, 1.0)), look: eh().add(V3(-0.05, 0, 0)), fov: 24 }));                                                     // extreme Nahaufnahme: Augen
+  cut(NINE - 0.3, (u) => ({ pos: eh().add(V3(0.0, 2.1, 0.5)), look: eh().add(V3(0, -0.02, 0)), fov: lerp(30, 25, u) }));                                                     // extreme Nahaufnahme: Augen
 
+  // Belichtung/Bloom in den Gesichts-Naheinstellungen absenken (sonst weisse Flaechen)
+  const baseExp = ctx.world.renderer.toneMappingExposure, baseBloom = ctx.world.bloom.strength;
+  updaters.push((t) => { const w = t >= CNT + 3.0 && t < NINE + 2.6; ctx.world.renderer.toneMappingExposure = w ? baseExp * 0.62 : baseExp; ctx.world.bloom.strength = w ? 0.06 : baseBloom; });
   // ===================== 3: BEI NEUN: AUGEN AUF -> COMEBACK =====================
   at(NINE, () => { E.defaultExpr = 'resolve'; sfx('sub', 0.7); music(0.3); numeral('9', E, true, '#ff4d4d'); });
-  act(E, NINE, { dur: 3.9, fn(u, P) { P.face = 'resolve'; P.hairDroop = Math.max(P.hairDroop, 0.9); P.torsoPitch += 0.04 * Math.sin(u * 3); } });   // Augen offen, noch liegend
-  const RISE = NINE + 3.9; A.rise = RISE;
+  act(E, NINE, { dur: 5.1, fn(u, P) { P.face = 'resolve'; P.hairDroop = Math.max(P.hairDroop, 0.9); P.torsoPitch += 0.04 * Math.sin(u * 3); } });   // Augen offen, noch liegend
+  const RISE = NINE + 5.1; A.rise = RISE;
   at(RISE - 0.5, () => { music(5); });
   at(RISE, () => { N.defaultExpr = 'shock'; });
   act(E, RISE, getUp(3.6)); act(E, RISE, weakRise(3.6));
@@ -108,7 +111,7 @@ export async function build(ctx) {
   cut(RISE + 3.1, (u) => frame(10, 1.8, 40, { minD: 5.6, margin: 1.2, lookY: 1.3 }));
 
   // ===================== 4: LETZTER SCHLAGABTAUSCH, ENTSCHEIDENDER TREFFER =====================
-  const FB = RISE + 4.0; A.fight = FB;
+  const FB = RISE + 4.6; A.fight = FB;
   at(FB - 1.5, () => { ref.target.set(0.2, 0, -1.9); ref.smoothTime = 0.5; });
   at(FB - 0.5, () => { music(6); N.defaultExpr = 'grit'; N.target.set(E.pos.x - 1.3, 0, 0); N.smoothTime = 0.4; E.target.set(E.pos.x, 0, 0); sfx('riser', 1.0); });
   act(N, FB - 0.3, { dur: 0.6, fn(u, P) { P.face = 'shout'; } });
@@ -147,7 +150,7 @@ export async function build(ctx) {
   });
   at(TH + 0.2, () => { sfx('sub', 1.4); overlay.flash(0.35); });
   const FALLT = TH + 0.2; const gfall = 3.4, vzf = 2.2, LAND = FALLT + 2 * vzf / gfall; A.land = LAND;
-  at(FALLT, () => act(N, FALLT, flight(FALLT, { from: [N.pos.x, N.pos.z], v: [-0.45, 0, vzf], g: gfall, spins: 0, hold: 9 })));
+  at(FALLT, () => act(N, FALLT, flight(FALLT, { from: [N.pos.x, N.pos.z], v: [-0.45, 0, vzf], g: gfall, spins: 0, hold: 4.4 })));   // endet genau, wenn Newton aufsteht (NUP = LAND + 4.4)
   at(LAND, () => { fx.puff(V3(N.pos.x, 0.2, N.pos.z), 10, { size: 0.8, color: '#cfd3ff', life: 1.2, spread: 2.4 }); ropeWob(2, 0.16); shake(0.18); sfx('thud', 1.2); music(7); excite(0.8); sfx('cheer', 1.2); sfx('crowd', 1.0); });
   act(E, TH + 0.3, { dur: 5, fn(u, P) { const k = smooth(seg(u, 0.5, 2.2)); P.face = 'resolve'; P.hipsDrop += 0.3 * k; P.torsoPitch += 0.3 * k; P.hairDroop = 0.5; for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = k; h.pos.set(sd === 'L' ? 0.3 : -0.3, 0.2, 0.3); } } });   // erschoepft
   // Kamera: Naheinstellung Newtons Gesicht, Perspektivwechsel, Zeitlupen-Fall
@@ -179,7 +182,7 @@ export async function build(ctx) {
   cut(LAND + 0.5, (u) => ({ pos: lv(V3(-0.4, 1.4, 4.4), V3(-0.6, 1.6, 4.0), u), look: N.pos.clone().add(V3(0.6, 0.6, -0.1)), fov: 42 }));
   cut(TEN - 0.5, (u) => ({ pos: lv(E.pos.clone().add(V3(-2.4, 0, 3.0)), E.pos.clone().add(V3(-2.0, 0, 2.6)), u).setY(1.4), look: eh().add(V3(0, -0.1, 0)), fov: 30 }));
   cut(NUP + 1.8, (u) => frame(4, 1.8, 42, { minD: 5.8, margin: 1.3, lookY: 1.3 }));
-  cut(NUP + 4.2, (u) => ({ pos: lv(V3(0.4, 1.5, 4.8), V3(0.2, 1.9, 6.0), u), look: V3(-0.2, 1.5, 0), fov: lerp(36, 46, u) }));
+  cut(NUP + 4.2, (u) => ({ pos: lv(E.pos.clone().add(V3(-2.3, 0, 2.9)), E.pos.clone().add(V3(-1.7, 0, 2.3)), u).setY(1.6), look: eh().add(V3(0, -0.15, 0)), fov: 32 }));
 
   A.end = NUP + 8.2; const END = A.end;
   const sorted = cuts.sort((a, b) => a.t - b.t);
