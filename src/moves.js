@@ -124,7 +124,7 @@ export function stare(dur = 1.0) { return { dur, fn(u, P) { P.face = 'shock'; P.
 
 /** Flug (Ballistik) + Landen + K.O.-Pose. params: {from:[x,z], v:[vx,vz,vy], g} */
 export function flight(t0, p) {
-  const g = p.g || 9.8, Tf = 2 * p.v[2] / g, spins = p.spins ?? 1;
+  const g = p.g || 9.8, y0 = p.y0 || 0, Tf = (p.v[2] + Math.sqrt(p.v[2] * p.v[2] + 2 * g * y0)) / g, spins = p.spins ?? 1;
   const pitchEnd = -(Math.PI / 2 + spins * 2 * Math.PI);
   const total = Tf + (p.hold ?? 3.5);
   return {
@@ -132,7 +132,7 @@ export function flight(t0, p) {
     fn(u, P, f) {
       f.airborne = true;
       if (u < Tf) {
-        const y = p.v[2] * u - 0.5 * g * u * u;
+        const y = y0 + p.v[2] * u - 0.5 * g * u * u;
         f.pos.x = p.from[0] + p.v[0] * u; f.pos.z = p.from[1] + p.v[1] * u; f.pos.y = 0; f.target.copy(f.pos);
         P.y = Math.max(0, y);
         const k = smooth(u / Tf);
@@ -246,5 +246,42 @@ export function floatPose(dur = 6, seed = 0) {       // Schwerelosigkeit: Gleite
     P.fk = { L: { hip: -0.5 + 0.3 * Math.sin(u * 1.3 + seed), knee: 0.8 + 0.2 * Math.sin(u * 1.1), splay: 0.2 }, R: { hip: -0.2 + 0.3 * Math.sin(u * 1.1 + 1 + seed), knee: 0.5, splay: -0.2 } };
     for (const sd of ['L', 'R']) { const h = P.hand[sd], s2 = sd === 'L' ? 1 : -1; h.w = 1; h.pos.set(s2 * (0.7 + 0.2 * Math.sin(u * 1.6 + s2)), 0.7 + 0.35 * Math.sin(u * 1.3 + s2 + seed), 0.1 + 0.3 * Math.sin(u * 1.1)); }
     P.face = 'shock'; P.hairPuff = Math.max(P.hairPuff, 0.8); P.headPitch += 0.2 * Math.sin(u * 1.4 + seed);
+  } };
+}
+
+// ---------- Part 3: Erschoepfung, Atmen, Fallen aus der Schwerelosigkeit ----------
+export function tired(dur = 3, amt = 1) {      // schwer atmend, Haende tief, Schultern haengen
+  return { dur, fn(u, P) {
+    const b = smooth(seg(u, 0, 0.15)) * amt; const br = Math.sin(u * 7.5);
+    P.torsoPitch += (0.22 + 0.07 * br) * b; P.hipsDrop += (0.12 + 0.03 * br) * b; P.headPitch += 0.18 * b; P.bounce = 0.2; P.guardW = 1 - 0.75 * b; P.stance = 1 + 0.15 * b;
+    for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? 0.3 : -0.3, 0.3 + 0.03 * br, 0.28); }
+    P.face = 'tired'; P.hairDroop = Math.max(P.hairDroop, 0.5 * b);
+  } };
+}
+export function breathe(dur = 6, face = 'closed', droop = 0.9) {   // liegend atmen (Brust hebt/senkt sich), Augen zu
+  return { dur, fn(u, P) { P.torsoPitch += 0.05 * Math.sin(u * 2.4); P.hairDroop = Math.max(P.hairDroop, droop); P.face = face; P.headPitch += 0.03 * Math.sin(u * 2.4); } };
+}
+export function weakRise(dur = 3.4) {          // muehsames Aufstehen mit Zittern, am Ende entschlossener Blick
+  return { dur, fn(u, P) {
+    const k = clamp(u / dur); P.hairDroop = Math.max(P.hairDroop, 0.8 * (1 - smooth(seg(k, 0.5, 1)) * 0.5));
+    P.torsoRoll += 0.02 * Math.sin(u * 30) * (1 - k); P.face = k < 0.35 ? 'tired' : 'resolve';
+  } };
+}
+/** Fall aus der Hoehe y0 (Schwerelosigkeit endet): landet auf den Fuessen (stagger) oder flach auf dem Ruecken */
+export function dropFrom(t0, p) {
+  const g = 9.8, Tf = Math.sqrt(2 * p.y0 / g);
+  return { dur: Tf + (p.hold ?? 2.5), Tf, fn(u, P, f) {
+    if (u < Tf) {
+      f.airborne = true; P.y = Math.max(0, p.y0 - 0.5 * g * u * u); const k = smooth(u / Tf);
+      P.bodyPitch = lerp(p.pitch0 || 0, p.flat ? -Math.PI / 2 : 0, k); P.hipsY = 0.99; P.face = 'shock';
+      P.fk = { L: { hip: -0.5 * (1 - k), knee: 0.8 * (1 - k) }, R: { hip: -0.2 * (1 - k), knee: 0.5 * (1 - k) } };
+      for (const sd of ['L', 'R']) { const h = P.hand[sd], s2 = sd === 'L' ? 1 : -1; h.w = 1; h.pos.set(s2 * (0.6 + 0.2 * Math.sin(u * 9)), 0.8 + 0.3 * Math.sin(u * 7 + s2), 0.1); }
+    } else if (!p.flat) {
+      f.airborne = false; f.feetInit = false; const w = u - Tf; P.hipsDrop += 0.35 * Math.exp(-w * 4); P.torsoPitch += 0.3 * Math.exp(-w * 3); P.face = 'tired';
+    } else {
+      const w = u - Tf; f.airborne = true; if (p.lieYaw !== undefined) P.yawOverride = p.lieYaw; P.y = Math.exp(-w * 6) * Math.abs(Math.sin(w * 10)) * 0.2; P.bodyPitch = -Math.PI / 2; P.hipsY = lerp(0.62, 0.2, smooth(w / 0.12)); P.face = 'closed';
+      P.fk = { L: { hip: 0.1, knee: 0.1, splay: 0.14, toe: 0.1 }, R: { hip: -0.04, knee: 0.15, splay: -0.14, toe: 0.1 } };
+      for (const sd of ['L', 'R']) { const h = P.hand[sd], s2 = sd === 'L' ? 1 : -1; h.w = 1; h.pos.set(s2 * 0.78, 0.12, -0.12); } P.headPitch += 0.25;
+    }
   } };
 }

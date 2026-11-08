@@ -1,5 +1,15 @@
 # Fortschritt
 
+## Stand 2026-11-08 – Part 3 (Runde 3, Finale): Inszenierung fertig, Vertonung wartet auf Credit-Freigabe
+
+`src/episodes/part3.js` + `episodes/part3/script.json` laufen komplett (`node tools/timeline.mjs --ep part3` → ca. 57,5 s, keine Dialog-Überlappung). Final-Render/Mux stehen aus, weil **10 neue ElevenLabs-Zeilen (ca. 380–450 Credits)** noch nicht freigegeben sind (wiederverwendet: `p3_k02` aus Part 1).
+
+**Dramaturgie:** Schwerkraft kehrt zurück (löst Part-2-Cliffhanger sofort) → Einstein kracht auf den Rücken, nahezu verloren → Newton (erschöpft, sichtbar atemlos) triumphiert, Schiedsrichter schickt ihn in die Ecke → Auszählung 1–9 → **absolute Stille** (nur Herzschlag/Atmen, Nahaufnahmen von Einsteins Gesicht, Newtons Zweifel, Schiedsrichter-Hand) → bei **Neun öffnet Einstein die Augen**: „Du hast eine Sache vergessen, Isaac … Zeit ist relativ.“ → Kranfahrt vom Boden, Einstein steht mühsam auf (Haar hängt, Erschöpfung) → Newton schlägt mit letzter Kraft, Einstein geht in die Knie und kämpft sich hoch → Stille → Newtons Wild-Haken, Einstein taucht weg, **gerade Rechte** im klaren Seitenprofil, Zeitlupe, Newtons Perücke fliegt, er fällt in Zeitlupe → Auszählung, Glocke → **Einstein gewinnt**, versöhnliches Ende (Newton ohne Perücke: „Gut gekämpft, Albert.“ – „Danke, Isaac. Nur relativ knapp.“).
+
+**Neu:** Gesichter `closed`/`tired`/`resolve`, Haar-Hängen, abnehmbare Perücke, Moves `tired`/`breathe`/`weakRise`/`dropFrom`, Atem- und Sub-Bass-SFX, Musik-Level 5–7 (Motiv, Aufbau, Dur-Auflösung) und absolute Stille-Fenster.
+
+**Offen:** Credit-Freigabe → 10 Zeilen erzeugen → `dur` eintragen → Timeline prüfen → 1080p-Render → SFX/Musik/Mux → QA → Release (`releases/AI-FIGHT-CLUB_Part3_1080x1920.mp4`). Bekannte Schwäche zum Nachschärfen vor dem Final-Render: Kameraführung direkt nach dem Treffer (Perückenflug/Fall) noch wenig lesbar.
+
 ## Stand 2026-11-08 – Part 2 (Runde 2) FERTIG: `releases/AI-FIGHT-CLUB_Part2_1080x1920.mp4`
 
 **Ergebnis:** 58,9 s, 1080×1920 (9:16), 30 fps, H.264 High, AAC 44,1 kHz Stereo, ca. 67 MB, animierte deutsche Untertitel (mit den Stimmen synchron), Stimmen unverändert (Kommentator Helmut Stieglbauer, Newton Victor Voss, Einstein Christian Plasa; IDs aus `config/voices.json`). Drehbuch/Spannungsbogen: `docs/part2-drehbuch.md`, Kontaktbogen: `docs/previews/part2-contact-sheet.png`.

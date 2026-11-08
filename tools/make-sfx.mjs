@@ -44,12 +44,15 @@ const S = {
   poof(t, v = 1) { const l = new LP(1200); add(t, 0.5, (x) => l.p(rnd()) * Math.exp(-x * 8) * 1.2, 0.5, v * 0.5); },
   crash(t, v = 1) { let p = 0; add(t, 1.8, (x) => { const n = rnd(); const h = n - p; p = n; return h * Math.exp(-x * 2.2) + sine(120 * Math.exp(-x), x) * Math.exp(-x * 3); }, 1.8, v * 0.5); },
   gravity(t, v = 1) { const l = new LP(600); add(t, 3.5, (x) => { const u = Math.min(1, x / 2); return (sine(40 + 30 * u, x) * 0.8 + l.p(rnd()) * 0.6) * Math.min(1, x * 3) * (1 - 0.5 * u) + sine(520 + 700 * u, x) * 0.12 * u * (0.5 + 0.5 * sine(5, x)); }, 3.5, v * 0.55); },
+  breath(t, v = 1) { const lp = new LP(2200), hp_ = new LP(500); add(t, 2.1, (x) => { const inh = x < 0.9, u = inh ? x / 0.9 : (x - 0.9) / 1.2; const env = inh ? Math.sin(Math.PI * u * 0.5) * 0.9 : Math.cos(Math.PI * u * 0.5) * 0.7; const n = rnd(); return (lp.p(n) - hp_.p(n)) * env * (inh ? 1.0 : 0.8); }, 2.1, v * 1.6); },
+  sub(t, v = 1) { add(t, 2.2, (x) => sine(46 * Math.exp(-x * 0.4) + 22, x) * Math.exp(-x * 1.6) * 1.4, 2.2, v * 0.9); },
+  fall(t, v = 1) { const l = new LP(1500); add(t, 0.8, (x) => (l.p(rnd()) * 0.8 + sine(700 - 500 * x, x) * 0.2) * Math.min(1, x * 8) * Math.exp(-x * 2), 0.8, v * 0.5); },
   crowd() {}, cheer() {}, laugh() {}, music() {}, mute() {},
 };
 
 const muteWin = info.events.filter((e) => e.kind === 'mute');
 const gainAt = (t) => { let g = 1; for (const m of muteWin) { const a = m.t, b = m.t + m.dur, fi = m.fadeIn ?? 0.05; if (t >= a && t < b) g = Math.min(g, Math.min(1, (t - a) / fi) < 1 ? 1 - Math.min(1, (t - a) / fi) : 0); if (t >= b && t < b + 0.12) g = Math.min(g, (t - b) / 0.12); } return g; };
-const SILENT_OK = new Set(['heart', 'tick', 'click']);
+const SILENT_OK = new Set(['heart', 'tick', 'click', 'breath', 'sub']);
 for (const e of info.events) { const f = S[e.kind]; if (!f) continue; if (!SILENT_OK.has(e.kind) && gainAt(e.t + 0.01) < 0.5) continue; f(e.t, e.vol ?? 1); }
 
 // Publikums-Atmo: gefiltertes Rauschen mit Huellkurve aus den Events

@@ -17,7 +17,7 @@ export function newPose() {
     hand: { L: { w: 0, pos: new THREE.Vector3(), roll: 0 }, R: { w: 0, pos: new THREE.Vector3(), roll: 0 } },
     world: { L: { w: 0, pos: new THREE.Vector3() }, R: { w: 0, pos: new THREE.Vector3() } },   // Welt-Ziele (Treffer)
     fk: null,                            // {L:{hip,knee},R:{hip,knee}} -> Beine ohne IK
-    face: null, hipsY: null, stance: 1, bounce: 1, guardW: 1, hairPuff: 0, flash: 0, y: 0, yawOverride: null,
+    face: null, hairDroop: 0, hipsY: null, stance: 1, bounce: 1, guardW: 1, hairPuff: 0, flash: 0, y: 0, yawOverride: null,
   };
 }
 
@@ -123,7 +123,7 @@ export class Fighter {
       if (!g.userData.base) continue;
       g.rotation.x = g.userData.base.x + Math.sin(t * 9 + g.userData.ph) * 0.04 + hv * Math.sin(g.userData.ph + t * 14) * 0.5 + P.hairPuff * g.userData.base.x * 0.8;
       g.rotation.z = g.userData.base.z + Math.cos(t * 8 + g.userData.ph) * 0.04 + hv * Math.cos(g.userData.ph + t * 12) * 0.5 + P.hairPuff * g.userData.base.z * 0.8;
-      const sc = 1 + P.hairPuff * 0.9; g.scale.set(1, sc, 1);
+      const dr = P.hairDroop; g.rotation.x *= 1 + 1.3 * dr; g.rotation.z *= 1 + 1.3 * dr; g.rotation.x += 0.5 * dr * Math.sign(g.userData.base.x || 1); const sc = (1 + P.hairPuff * 0.9) * (1 - 0.75 * dr); g.scale.set(1, sc, 1);
     }
     // Flash (Treffer/Aura-Emissive)
     const fl = clamp(P.flash + this.gloveFlash);

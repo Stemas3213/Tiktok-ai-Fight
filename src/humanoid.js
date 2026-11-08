@@ -89,7 +89,8 @@ export function buildHumanoid(look) {
     part(foot, rbox(0.31, 0.04, 0.47, 0.02), cuffM, 0, 0.035, 0.07);
     legs[name] = { anchor, upper, lower, foot, side: s, pole: new THREE.Vector3(s * 0.15, 0.1, 1).normalize() };
   }
-  return { root, body, pelvis, torso, neck, head, face, faceMat, faces, arms, legs, hairNodes, skinMat: skin, gloveMat: gloveM, torsoMesh };
+  const wig = head.userData.wig || null;
+  return { root, body, pelvis, torso, neck, head, face, faceMat, faces, arms, legs, hairNodes, wig, skinMat: skin, gloveMat: gloveM, torsoMesh };
 }
 
 // ----- Charakter-Looks -----
@@ -99,6 +100,7 @@ export const LOOKS = {
     boots: '#4a0d14', torsoDecal: 'newton', sleeves: true,
     hair: (head, { rbox, mat, part, D }) => {
       const w = mat('#f4f1ea', { roughness: 0.9 }), nodes = [];
+      const wig = new THREE.Group(); head.add(wig); head.userData.wig = wig; const head0 = head; head = wig;   // alle Perueckenteile in eigener Gruppe (abnehmbar)
       part(head, rbox(0.52, 0.2, 0.5, 0.09, 4), w, 0, D.head * 1.08, -0.04);        // Perueckendach
       part(head, rbox(0.54, 0.5, 0.22, 0.09, 4), w, 0, D.head * 0.5, -0.27);         // Hinterkopf
       for (const s of [-1, 1]) {                                                      // Seitenlocken

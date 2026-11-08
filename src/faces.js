@@ -52,7 +52,7 @@ function mouth(ctx, kind, x, y, w, col = '#111') {
   ctx.restore();
 }
 
-const EXPR = ['neutral', 'grit', 'hurt', 'shock', 'shout', 'happy', 'dizzy', 'smug'];
+const EXPR = ['neutral', 'grit', 'hurt', 'shock', 'shout', 'happy', 'dizzy', 'smug', 'closed', 'tired', 'resolve'];
 
 /** Gibt {expr: CanvasTexture} fuer einen Charakter zurueck. style: 'newton'|'einstein'|'ref'|'host'|'fan' */
 export function makeFaces(style, skin = '#f1c9a5', extra = {}) {
@@ -71,6 +71,9 @@ export function makeFaces(style, skin = '#f1c9a5', extra = {}) {
     if (e === 'shock') { eye(ctx, cx - ex, ey, 24, 0); eye(ctx, cx + ex, ey, 24, 0); mouth(ctx, 'open', cx, 200, 44); bl = -0.2; br = 0.2; by -= 14; }
     if (e === 'shout') { open(0); mouth(ctx, 'shout', cx, 190, 76); bl = 0.4; br = -0.4; by += 2; }
     if (e === 'happy') { ctx.strokeStyle = '#111'; ctx.lineWidth = 9; ctx.lineCap = 'round'; for (const s of [-1, 1]) { ctx.beginPath(); ctx.arc(cx + s * ex, ey + 10, 17, 1.1 * Math.PI, 1.9 * Math.PI); ctx.stroke(); } mouth(ctx, 'open', cx, 190, 64); bl = -0.1; br = 0.1; by -= 8; }
+    if (e === 'closed') { ctx.strokeStyle = '#111'; ctx.lineWidth = 9; ctx.lineCap = 'round'; for (const sg of [-1, 1]) { ctx.beginPath(); ctx.arc(cx + sg * ex, ey - 4, 17, 0.12 * Math.PI, 0.88 * Math.PI); ctx.stroke(); } mouth(ctx, 'open', cx, 198, 34); bl = -0.18; br = 0.18; by += 6; }
+    if (e === 'tired') { eye(ctx, cx - ex, ey + 4, 17, 0); eye(ctx, cx + ex, ey + 4, 17, 0); ctx.fillStyle = skin; ctx.fillRect(cx - ex - 24, ey - 24, 48, 27); ctx.fillRect(cx + ex - 24, ey - 24, 48, 27); ctx.strokeStyle = '#111'; ctx.lineWidth = 6; for (const sg of [-1, 1]) { ctx.beginPath(); ctx.moveTo(cx + sg * ex - 18, ey + 2); ctx.lineTo(cx + sg * ex + 18, ey + 2); ctx.stroke(); } mouth(ctx, 'open', cx, 200, 42); ctx.fillStyle = '#6fc3ff'; ctx.beginPath(); ctx.ellipse(cx + 92, 80, 8, 13, 0.2, 0, Math.PI * 2); ctx.fill(); bl = -0.3; br = 0.3; by += 10; }
+    if (e === 'resolve') { ctx.fillStyle = '#fff'; for (const sg of [-1, 1]) { ctx.beginPath(); ctx.ellipse(cx + sg * ex, ey + 2, 18, 11, 0, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(cx + sg * ex + 3, ey + 3, 8, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#fff'; } mouth(ctx, 'flat', cx, 196, 52); ctx.fillStyle = '#6fc3ff'; ctx.beginPath(); ctx.ellipse(cx + 96, 96, 7, 12, 0.2, 0, Math.PI * 2); ctx.fill(); bl = 0.12; br = -0.12; by += 12; }
     if (e === 'dizzy') { swirlEye(ctx, cx - ex, ey, 17); swirlEye(ctx, cx + ex, ey, 17); mouth(ctx, 'wavy', cx, 196, 60); bl = -0.2; br = 0.25; by -= 4; }
     brow(ctx, cx - ex, by, bw, bl, browCol, thick);
     brow(ctx, cx + ex, by, bw, br, browCol, thick);

@@ -1,0 +1,165 @@
+{
+  "episode": "part3",
+  "title": "AI FIGHT CLUB – Part 3: Runde 3 – Das Finale (Newton vs. Einstein)",
+  "language": "de",
+  "note": "Quelle fuer Untertitel UND ElevenLabs-Sprache. 'at' = [Anker, Offset in Sim-Sekunden] aus src/episodes/part3.js. 'est': Dauer geschaetzt (Audio noch nicht erzeugt). 'reuse' = Datei aus Part 1 wiederverwendet.",
+  "cues": [
+    {
+      "id": "p3_k01",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "snap",
+        0.05
+      ],
+      "dur": 3.2,
+      "text": "Die Schwerkraft ist zurück – und Einstein am Boden!",
+      "est": true
+    },
+    {
+      "id": "p3_n01",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "gloat",
+        1.2
+      ],
+      "dur": 4.6,
+      "text": "Gute Nacht, Albert. Die Schwerkraft gewinnt immer!",
+      "est": true
+    },
+    {
+      "id": "p3_k02",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "count",
+        0.2
+      ],
+      "dur": 2.46,
+      "text": "Er geht zu Boden! Steht er wieder auf?",
+      "reuse": "p1_k08"
+    },
+    {
+      "id": "p3_k03",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "warm",
+      "at": [
+        "hush",
+        -1.6
+      ],
+      "dur": 2.4,
+      "text": "Das Publikum hält den Atem an …",
+      "est": true
+    },
+    {
+      "id": "p3_k06",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "fight",
+        2.2
+      ],
+      "dur": 3.4,
+      "text": "Newton gibt alles – Einstein geht in die Knie!",
+      "est": true
+    },
+    {
+      "id": "p3_e01",
+      "speaker": "E",
+      "voice": "einstein",
+      "delivery": "whisper",
+      "at": [
+        "nine",
+        0.4
+      ],
+      "dur": 3.8,
+      "text": "Du hast eine Sache vergessen, Isaac … Zeit ist relativ.",
+      "est": true
+    },
+    {
+      "id": "p3_n02",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "shock",
+      "at": [
+        "rise",
+        1.0
+      ],
+      "dur": 2.0,
+      "text": "Das … ist unmöglich!",
+      "est": true
+    },
+    {
+      "id": "p3_k04",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "rise",
+        2.6
+      ],
+      "dur": 3.0,
+      "text": "Er steht auf! Einstein steht wieder auf!",
+      "est": true
+    },
+    {
+      "id": "p3_k05",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "ten",
+        0.5
+      ],
+      "dur": 2.9,
+      "text": "Einstein gewinnt! Was für ein Finale!",
+      "est": true
+    },
+    {
+      "id": "p3_n03",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "warm",
+      "at": [
+        "ten",
+        4.6
+      ],
+      "dur": 2.0,
+      "text": "Gut gekämpft, Albert.",
+      "est": true
+    },
+    {
+      "id": "p3_e02",
+      "speaker": "E",
+      "voice": "einstein",
+      "delivery": "warm",
+      "at": [
+        "ten",
+        7.0
+      ],
+      "dur": 2.7,
+      "text": "Danke, Isaac. Nur relativ knapp.",
+      "est": true
+    }
+  ],
+  "speakers": {
+    "K": {
+      "name": "KOMMENTATOR",
+      "color": "#ffd24a"
+    },
+    "N": {
+      "name": "NEWTON",
+      "color": "#ff6a6a"
+    },
+    "E": {
+      "name": "EINSTEIN",
+      "color": "#6ab0ff"
+    }
+  }
+}

@@ -36,12 +36,22 @@ const stab = (t, notes, len, v = 1) => add(t, len, (x) => { let s = 0; for (cons
 const arp = (t, n, v = 1) => add(t, 0.18, (x) => (Math.abs((x * hz(n)) % 1 * 4 - 2) - 1) * Math.exp(-x * 14), 0.22 * v);
 const pad = (t, notes, len, v = 1) => add(t, len, (x) => { let s = 0; for (const n of notes) s += Math.sin(2 * Math.PI * hz(n) * x) + 0.5 * Math.sin(2 * Math.PI * hz(n) * 2.003 * x); return s * 0.08 * Math.min(1, x * 3) * Math.min(1, (len - x) * 3); }, v);
 const riser = (t, len, v = 1) => { let l = 0; add(t, len, (x) => { const u = x / len; l += (0.02 + 0.6 * u * u) * (rnd() - l); return l * u * 1.8 + Math.sin(2 * Math.PI * (200 + 1800 * u * u) * x) * 0.15 * u; }, v); };
+const bellTone = (t, n, len, v = 1) => add(t, len, (x) => { const f = hz(n); return (Math.sin(2 * Math.PI * f * x) + 0.35 * Math.sin(2 * Math.PI * f * 2.0 * x) + 0.12 * Math.sin(2 * Math.PI * f * 3.01 * x)) * Math.min(1, x * 60) * Math.exp(-x * 1.4); }, 0.5 * v);
+const lead = (t, n, len, v = 1) => add(t, len, (x) => { const f = hz(n); const e = Math.min(1, x * 12) * Math.min(1, Math.max(0, (len - x) * 6)); return ((x * f) % 1 * 2 - 1) * 0.5 * e + Math.sin(2 * Math.PI * f * x) * 0.5 * e; }, 0.3 * v);
 const crash = (t, v = 1) => { let p = 0; add(t, 1.6, (x) => { const n = rnd(); const h = n - p; p = n; return h * Math.exp(-x * 2.4); }, 0.35 * v); };
 
 const prog = [[45, [57, 60, 64]], [41, [53, 57, 60]], [48, [55, 60, 64]], [43, [55, 59, 62]]];   // Am - F - C - G
+const progMaj = [[48, [60, 64, 67]], [43, [55, 59, 62]], [45, [57, 60, 64]], [41, [53, 57, 60]]];   // C - G - Am - F (Aufloesung)
+const MOTIF = [[69, 0], [72, 1], [76, 2], [72, 3]], MOTIF_MAJ = [[72, 0], [76, 1], [79, 2], [76, 3]];
 const bars = Math.ceil(dur / bar);
 for (let b = 0; b < bars; b++) {
-  const t = b * bar, lvl = I(t + bar / 2); const [root, chord] = prog[b % 4];
+  const t = b * bar, lvl = I(t + bar / 2); const [root, chord] = (lvl >= 7 ? progMaj : prog)[b % 4];
+  if (lvl >= 5) {                                   // Finale: Motiv, Herzschlag, Aufbau
+    pad(t, chord.map((n) => n - 12), bar, 1.3); pad(t, chord, bar, lvl >= 6 ? 0.9 : 0.5);
+    for (const [n, q] of (lvl >= 7 ? MOTIF_MAJ : MOTIF)) { bellTone(t + q * beat, n + (b % 2 ? 0 : 0), beat * 1.9, 1); if (lvl >= 6) lead(t + q * beat, n + 12, beat * 0.9, 0.8); }
+    kick(t, lvl >= 7 ? 0.5 : 0.8); kick(t + beat * 0.5, 0.35); if (lvl >= 6) { for (let q = 1; q < 4; q++) kick(t + q * beat, 0.9); snare(t + beat, 0.8); snare(t + 3 * beat, 0.9); for (let e = 0; e < 8; e++) hat(t + e * beat / 2, 0.8); bass(t, root, beat * 0.9, 1); bass(t + beat * 2, root, beat * 0.9, 1); }
+    continue;
+  }
   pad(t, chord.map((n) => n - 12), bar, lvl > 0.3 ? 0.9 : 1.3);
   for (let q = 0; q < 4; q++) {
     const tb = t + q * beat, li = I(tb);
