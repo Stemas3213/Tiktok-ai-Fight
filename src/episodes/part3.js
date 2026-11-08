@@ -93,6 +93,9 @@ export async function build(ctx) {
   // Belichtung/Bloom in den Gesichts-Naheinstellungen absenken (sonst weisse Flaechen)
   const baseExp = ctx.world.renderer.toneMappingExposure, baseBloom = ctx.world.bloom.strength;
   updaters.push((t) => { const w = t >= CNT + 3.0 && t < NINE + 2.6; ctx.world.renderer.toneMappingExposure = w ? baseExp * 0.62 : baseExp; ctx.world.bloom.strength = w ? 0.06 : baseBloom; });
+  // Aufhellung fuer die Schlussbilder (Gesichter sonst im Gegenlicht): Fuelllicht an der Kamera
+  const fill = new THREE.PointLight('#fff1dc', 0, 14, 2); scene.add(fill);
+  updaters.push((t) => { const on = t >= TEN - 0.6 && t < NUP + 1.8; fill.intensity = on ? 2.5 : 0; fill.position.copy(ctx.camera.position).add(V3(0.3, 0.5, 0)); });
   // ===================== 3: BEI NEUN: AUGEN AUF -> COMEBACK =====================
   at(NINE, () => { E.defaultExpr = 'resolve'; sfx('sub', 0.7); music(0.3); numeral('9', E, true, '#ff4d4d'); });
   act(E, NINE, { dur: 5.1, fn(u, P) { P.face = 'resolve'; P.hairDroop = Math.max(P.hairDroop, 0.9); P.torsoPitch += 0.04 * Math.sin(u * 3); } });   // Augen offen, noch liegend
@@ -180,9 +183,10 @@ export async function build(ctx) {
   act(N, NUP + 4.0, gloveBang(1.0)); act(E, NUP + 4.0, gloveBang(1.0));
   at(NUP + 4.2, () => { sfx('tap', 1.0); excite(0.4); });
   cut(LAND + 0.5, (u) => ({ pos: lv(V3(-0.4, 1.4, 4.4), V3(-0.6, 1.6, 4.0), u), look: N.pos.clone().add(V3(0.6, 0.6, -0.1)), fov: 42 }));
-  cut(TEN - 0.5, (u) => ({ pos: lv(E.pos.clone().add(V3(-2.4, 0, 3.0)), E.pos.clone().add(V3(-2.0, 0, 2.6)), u).setY(1.4), look: eh().add(V3(0, -0.1, 0)), fov: 30 }));
+  cut(TEN - 0.5, (u) => ({ pos: lv(E.pos.clone().add(V3(-1.0, 0, 2.8)), E.pos.clone().add(V3(-0.7, 0, 2.3)), u).setY(1.45), look: eh().add(V3(0, -0.1, 0)), fov: 30 }));   // Newton steht nicht im Weg
   cut(NUP + 1.8, (u) => frame(4, 1.8, 42, { minD: 5.8, margin: 1.3, lookY: 1.3 }));
-  cut(NUP + 4.2, (u) => ({ pos: lv(E.pos.clone().add(V3(-2.3, 0, 2.9)), E.pos.clone().add(V3(-1.7, 0, 2.3)), u).setY(1.6), look: eh().add(V3(0, -0.15, 0)), fov: 32 }));
+  cut(NUP + 4.2, (u) => ({ pos: lv(V3(-0.3, 1.5, 4.6), V3(-0.2, 1.5, 4.2), u), look: V3(-0.2, 1.45, 0.3), fov: 26 }));   // Zweier-Profil: Faust-Gruss
+  cut(NUP + 5.0, (u) => ({ pos: lv(V3(0.1, 1.75, 6.4), V3(0.0, 1.6, 5.5), u), look: V3(-0.2, 1.5, 0.3), fov: 34 }));   // Schlussbild: beide Kaempfer, Einstein jubelt
 
   A.end = NUP + 8.2; const END = A.end;
   const sorted = cuts.sort((a, b) => a.t - b.t);
