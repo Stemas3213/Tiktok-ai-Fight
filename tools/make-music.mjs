@@ -11,7 +11,11 @@ let seed = 777; const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; 
 const BPM = 132, beat = 60 / BPM, bar = beat * 4;
 const hz = (n) => 440 * Math.pow(2, (n - 69) / 12);
 // Intensitaet 0..4 ueber der Zeit (Ausgabezeit)
+const musicEv = info.events.filter((e) => e.kind === 'music').sort((a, b) => a.t - b.t);
+const muteWin = info.events.filter((e) => e.kind === 'mute');
+const gainAt = (t) => { let g = 1; for (const w of muteWin) { const a = w.t, b = w.t + w.dur, fi = w.fadeIn ?? 0.05; if (t >= a && t < b) g = Math.min(g, Math.max(0, 1 - (t - a) / fi)); if (t >= b && t < b + 0.12) g = Math.min(g, (t - b) / 0.12); } return g; };
 const I = (t) => {
+  if (musicEv.length) { let lv = musicEv[0].level; for (const e of musicEv) if (e.t <= t) lv = e.level; return lv; }
   const g = (k, d) => (k in A ? A[k] : d);
   if (t < g('prov', 4.7) - 0.3) return 2.4;
   if (t < g('fight', 20) - 1.0) return 1.1;
@@ -52,6 +56,7 @@ for (let b = 0; b < bars; b++) {
     if (li >= 1.0 && li < 2 && q === 0) arp(tb, chord[0] + 12, 0.7);
   }
 }
+if ('clash' in A) crash(A.clash, 1.4);
 if ('prov' in A) riser(A.prov - 0.9, 0.9, 0.6);                    // Uebergang Logo
 if ('fight' in A) riser(A.fight - 1.9, 1.9, 0.9);                  // Aufbau zum Gong
 if ('upper' in A) { riser(A.upper - 3.0, 3.0, 1.3); crash(A.upper, 1.3); }
@@ -59,7 +64,7 @@ if ('land' in A) crash(A.land, 0.8);
 if ('bellEnd' in A) { crash(A.bellEnd, 1.0); kick(A.bellEnd, 1.2); }
 let peak = 0; for (let i = 0; i < N; i++) peak = Math.max(peak, Math.abs(out[i]));
 const g = 0.6 / (peak || 1); const pcm = Buffer.alloc(N * 2);
-for (let i = 0; i < N; i++) { const fade = Math.min(1, (N - i) / (SR * 1.5), i / (SR * 0.05)); pcm.writeInt16LE(Math.round(Math.max(-1, Math.min(1, out[i] * g * fade)) * 32767), i * 2); }
+for (let i = 0; i < N; i++) { out[i] *= gainAt(i / SR); const fade = Math.min(1, (N - i) / (SR * 1.5), i / (SR * 0.05)); pcm.writeInt16LE(Math.round(Math.max(-1, Math.min(1, out[i] * g * fade)) * 32767), i * 2); }
 const hdr = Buffer.alloc(44); hdr.write('RIFF', 0); hdr.writeUInt32LE(36 + pcm.length, 4); hdr.write('WAVEfmt ', 8); hdr.writeUInt32LE(16, 16); hdr.writeUInt16LE(1, 20); hdr.writeUInt16LE(1, 22); hdr.writeUInt32LE(SR, 24); hdr.writeUInt32LE(SR * 2, 28); hdr.writeUInt16LE(2, 32); hdr.writeUInt16LE(16, 34); hdr.write('data', 36); hdr.writeUInt32LE(pcm.length, 40);
 fs.writeFileSync(outFile, Buffer.concat([hdr, pcm]));
 console.log(`Musik: ${outFile} (${dur.toFixed(1)} s, ${BPM} BPM, Am-F-C-G)`);

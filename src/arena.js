@@ -151,13 +151,14 @@ export function buildArena(scene) {
   [iBody, iHead, iArmL, iArmR].forEach((m) => { m.instanceColor.needsUpdate = true; });
   const dummy = new THREE.Object3D();
   A.crowdExcite = 0.3;
-  A.updateCrowd = (t, excite) => {
+  A.updateCrowd = (t, excite, zg = 0) => {
     for (let i = 0; i < N; i++) {
       const s = seats[i];
       const e = clamp(excite * (0.5 + s.mood) , 0, 1.4);
-      const hop = Math.abs(Math.sin(t * s.speed + s.phase)) * (0.02 + 0.22 * e) * (s.mood > 0.25 ? 1 : 0.3);
+      let hop = Math.abs(Math.sin(t * s.speed + s.phase)) * (0.02 + 0.22 * e) * (s.mood > 0.25 ? 1 : 0.3);
+      if (zg > 0) hop += zg * (0.6 + 2.2 * s.mood + 0.4 * Math.sin(t * 0.9 + s.phase));
       const sway = Math.sin(t * 2 + s.phase) * 0.05 * (0.5 + e);
-      dummy.position.set(s.x, s.y + hop, s.z); dummy.rotation.set(0, s.yaw, sway); dummy.scale.set(1, 1, 1); dummy.updateMatrix(); iBody.setMatrixAt(i, dummy.matrix);
+      dummy.position.set(s.x, s.y + hop, s.z); dummy.rotation.set(zg * 0.9 * Math.sin(t * 0.7 + s.phase), s.yaw, sway + zg * 0.6 * Math.sin(t * 0.5 + s.phase * 2)); dummy.scale.set(1, 1, 1); dummy.updateMatrix(); iBody.setMatrixAt(i, dummy.matrix);
       dummy.position.set(s.x, s.y + hop + 0.46, s.z); dummy.rotation.set(0, s.yaw + Math.sin(t * 1.3 + s.phase) * 0.25, sway * 0.5); dummy.updateMatrix(); iHead.setMatrixAt(i, dummy.matrix);
       const up = clamp(e - 0.35, 0, 1) * (s.mood > 0.4 ? 1 : 0.2);
       for (const [mesh, sd] of [[iArmL, 1], [iArmR, -1]]) {

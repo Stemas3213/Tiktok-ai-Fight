@@ -24,7 +24,7 @@ class Pool {
     for (let i = this.p.length - 1; i >= 0; i--) { const q = this.p[i]; q.age += dt; if (q.age >= q.life) this.p.splice(i, 1); }
     let i = 0;
     for (const q of this.p) {
-      q.v.y -= q.g * dt; q.v.multiplyScalar(Math.exp(-q.drag * dt)); q.pos.addScaledVector(q.v, dt);
+      q.v.y -= q.g * (this.gScale ?? 1) * dt; q.v.multiplyScalar(Math.exp(-q.drag * dt)); q.pos.addScaledVector(q.v, dt);
       if (q.floor !== undefined && q.pos.y < q.floor) { q.pos.y = q.floor; q.v.y *= -0.35; q.v.x *= 0.6; q.v.z *= 0.6; }
       const u = q.age / q.life, sc = q.size * (u < 0.1 ? u / 0.1 : 1) * (u > 0.7 ? (1 - u) / 0.3 : 1);
       d.position.copy(q.pos); d.rotation.set(q.rx + q.sx * q.age, q.ry + q.sy * q.age, q.rz); d.scale.setScalar(Math.max(0.0001, sc)); d.updateMatrix();
@@ -124,6 +124,7 @@ export class FX {
 
   step(dt, t) {
     this.t = t;
+    this.bricks.gScale = this.stars.gScale = this.confetti.gScale = this.gScale ?? 1;
     this.bricks.step(dt, t); this.stars.step(dt, t); this.confetti.step(dt, t);
     for (let i = this.puffs.length - 1; i >= 0; i--) {
       const p = this.puffs[i]; p.age += dt; const u = p.age / p.life;

@@ -35,15 +35,27 @@ const S = {
   boing(t, v = 1) { add(t, 0.6, (x) => sine(220 + 260 * Math.sin(x * 18) * Math.exp(-x * 4) + 120 * Math.exp(-x * 6), x) * Math.exp(-x * 5), 0.6, v * 0.35); },
   growl(t, v = 1) { const l = new LP(260); add(t, 1.2, (x) => (sine(70 + 12 * sine(8, x), x) * 0.8 + l.p(rnd()) * 1.5) * Math.sin(Math.PI * Math.min(1, x / 1.2)), 1.2, v * 0.5); },
   bell2(t, v = 1) { S.bell(t + 0.4, v * 0.8); },
-  crowd() {}, cheer() {}, laugh() {},
+  click(t, v = 1) { add(t, 0.12, (x) => (sine(2400, x) + 0.5 * sine(3700, x)) * Math.exp(-x * 90), 0.12, v * 0.9); add(t, 0.2, (x) => sine(900, x) * Math.exp(-x * 35), 0.2, v * 0.4); },
+  tick(t, v = 1) { add(t, 0.08, (x) => sine(1400, x) * Math.exp(-x * 60), 0.08, v * 0.5); },
+  heart(t, v = 1) { for (const k of [0, 0.2]) add(t + k, 0.25, (x) => sine(58, x) * Math.exp(-x * 14), 0.25, v * 1.1); },
+  slip(t, v = 1) { add(t, 0.45, (x) => sine(900 + 1500 * x * x - 400 * x, x) * Math.min(1, x * 40) * Math.exp(-x * 5), 0.45, v * 0.3); add(t + 0.35, 0.5, (x) => sine(300 * Math.exp(-x * 3) + 90, x) * Math.exp(-x * 4), 0.5, v * 0.5); },
+  riser(t, v = 1) { const l = new LP(2000); add(t - 0.3, 0.8, (x) => { const u = x / 0.8; return l.p(rnd()) * u * u * 1.4 + sine(300 + 1500 * u * u, x) * 0.2 * u; }, 0.8, v * 0.5); },
+  slowdown(t, v = 1) { add(t, 0.9, (x) => (sine(900 * Math.exp(-x * 2.6) + 60, x) + 0.5 * sine(1800 * Math.exp(-x * 2.6) + 120, x)) * Math.exp(-x * 2) * 0.5, 0.9, v * 0.6); },
+  poof(t, v = 1) { const l = new LP(1200); add(t, 0.5, (x) => l.p(rnd()) * Math.exp(-x * 8) * 1.2, 0.5, v * 0.5); },
+  crash(t, v = 1) { let p = 0; add(t, 1.8, (x) => { const n = rnd(); const h = n - p; p = n; return h * Math.exp(-x * 2.2) + sine(120 * Math.exp(-x), x) * Math.exp(-x * 3); }, 1.8, v * 0.5); },
+  gravity(t, v = 1) { const l = new LP(600); add(t, 3.5, (x) => { const u = Math.min(1, x / 2); return (sine(40 + 30 * u, x) * 0.8 + l.p(rnd()) * 0.6) * Math.min(1, x * 3) * (1 - 0.5 * u) + sine(520 + 700 * u, x) * 0.12 * u * (0.5 + 0.5 * sine(5, x)); }, 3.5, v * 0.55); },
+  crowd() {}, cheer() {}, laugh() {}, music() {}, mute() {},
 };
 
-for (const e of info.events) { const f = S[e.kind]; if (f) f(e.t, e.vol ?? 1); }
+const muteWin = info.events.filter((e) => e.kind === 'mute');
+const gainAt = (t) => { let g = 1; for (const m of muteWin) { const a = m.t, b = m.t + m.dur, fi = m.fadeIn ?? 0.05; if (t >= a && t < b) g = Math.min(g, Math.min(1, (t - a) / fi) < 1 ? 1 - Math.min(1, (t - a) / fi) : 0); if (t >= b && t < b + 0.12) g = Math.min(g, (t - b) / 0.12); } return g; };
+const SILENT_OK = new Set(['heart', 'tick', 'click']);
+for (const e of info.events) { const f = S[e.kind]; if (!f) continue; if (!SILENT_OK.has(e.kind) && gainAt(e.t + 0.01) < 0.5) continue; f(e.t, e.vol ?? 1); }
 
 // Publikums-Atmo: gefiltertes Rauschen mit Huellkurve aus den Events
 const swell = (t) => { let v = 0.045; for (const e of info.events) { const dt = t - e.t; if (dt < 0) continue; if (e.kind === 'cheer') v += 0.16 * Math.min(1, dt * 2) * Math.exp(-dt * 0.5); else if (e.kind === 'crowd') v += 0.1 * Math.exp(-dt * 0.9); else if (['hit', 'hit2', 'bigHit', 'bonk', 'boom', 'thud'].includes(e.kind)) v += 0.05 * (e.vol ?? 1) * Math.exp(-dt * 2.2); } return v; };
 const a = new LP(900), b = new LP(180);
-for (let i = 0; i < N; i++) { const t = i / SR; const n = rnd(); buf[i] += (a.p(n) - b.p(n)) * swell(t) * 3.2 * (0.85 + 0.15 * Math.sin(t * 5.3)); }
+for (let i = 0; i < N; i++) { const t = i / SR; const n = rnd(); buf[i] += (a.p(n) - b.p(n)) * swell(t) * 3.2 * (0.85 + 0.15 * Math.sin(t * 5.3)) * gainAt(t); }
 
 // Normalisieren (Headroom fuer die Sprache: Peak -6 dBFS) + Fade
 let peak = 0; for (let i = 0; i < N; i++) peak = Math.max(peak, Math.abs(buf[i]));

@@ -1,0 +1,191 @@
+{
+  "episode": "part2",
+  "title": "AI FIGHT CLUB – Part 2: Runde 2 (Newton vs. Einstein)",
+  "language": "de",
+  "note": "Quelle fuer Untertitel UND ElevenLabs-Sprache. 'at' = [Anker, Offset in Sim-Sekunden] aus src/episodes/part2.js. 'est': true = Dauer geschaetzt (Audio noch nicht erzeugt). 'reuse' = Datei aus Part 1 wiederverwendet.",
+  "cues": [
+    {
+      "id": "p2_k01",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "open",
+        0.1
+      ],
+      "dur": 3.4,
+      "text": "Runde zwei! Und Newton wird sofort überrollt!",
+      "est": true
+    },
+    {
+      "id": "p2_e01",
+      "speaker": "E",
+      "voice": "einstein",
+      "delivery": "smug",
+      "at": [
+        "smug",
+        0.3
+      ],
+      "dur": 3.5,
+      "text": "Gegen Relativität hast du keine Chance, Isaac!",
+      "est": true
+    },
+    {
+      "id": "p2_k02",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "smug",
+        3.7
+      ],
+      "dur": 3.4,
+      "text": "Newton wankt! Das könnte schnell vorbei sein!",
+      "est": true
+    },
+    {
+      "id": "p2_k03",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "slip",
+        0.05
+      ],
+      "dur": 3.3,
+      "text": "Er rutscht auf einem Apfel aus! Unfassbar!",
+      "est": true
+    },
+    {
+      "id": "p2_n01",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "slip",
+        2.6
+      ],
+      "dur": 3.9,
+      "text": "Der Apfel fällt nicht weit vom Stamm!",
+      "est": true
+    },
+    {
+      "id": "p2_k04",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "turn",
+        2.7
+      ],
+      "dur": 1.7,
+      "text": "Einstein steckt in der Klemme!",
+      "reuse": "p1_k06"
+    },
+    {
+      "id": "p2_n02",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "cradle",
+        0.5
+      ],
+      "dur": 2.93,
+      "text": "Gravitation, mein Lieber!",
+      "reuse": "p1_n03"
+    },
+    {
+      "id": "p2_e03",
+      "speaker": "E",
+      "voice": "einstein",
+      "delivery": "determined",
+      "at": [
+        "bullet",
+        0.3
+      ],
+      "dur": 3.2,
+      "text": "Zeit ist relativ – für dich nur langsamer!",
+      "est": true
+    },
+    {
+      "id": "p2_k05",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "resume",
+        0.8
+      ],
+      "dur": 3.11,
+      "text": "Was für ein Hammer! Das war relativ gewaltig!",
+      "reuse": "p1_k07"
+    },
+    {
+      "id": "p2_k06",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "down",
+        1.6
+      ],
+      "dur": 2.46,
+      "text": "Er geht zu Boden! Steht er wieder auf?",
+      "reuse": "p1_k08"
+    },
+    {
+      "id": "p2_n03",
+      "speaker": "N",
+      "voice": "newton",
+      "delivery": "smug",
+      "at": [
+        "rise",
+        1.4
+      ],
+      "dur": 2.7,
+      "text": "Noch lange nicht, Albert!",
+      "est": true
+    },
+    {
+      "id": "p2_k07",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "energetic",
+      "at": [
+        "climb",
+        1.2
+      ],
+      "dur": 2.5,
+      "text": "Einstein klettert auf die Seile!",
+      "est": true
+    },
+    {
+      "id": "p2_k09",
+      "speaker": "K",
+      "voice": "narrator",
+      "delivery": "excited",
+      "at": [
+        "zero",
+        1.0
+      ],
+      "dur": 3.6,
+      "text": "Die Schwerkraft ist weg! Wer gewinnt jetzt noch?",
+      "est": true
+    }
+  ],
+  "speakers": {
+    "K": {
+      "name": "KOMMENTATOR",
+      "color": "#ffd24a"
+    },
+    "N": {
+      "name": "NEWTON",
+      "color": "#ff6a6a"
+    },
+    "E": {
+      "name": "EINSTEIN",
+      "color": "#6ab0ff"
+    }
+  }
+}

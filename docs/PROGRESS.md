@@ -1,5 +1,15 @@
 # Fortschritt
 
+## Stand 2026-11-08 – Part 2 (Runde 2): Choreografie fertig, Vertonung wartet auf Credit-Freigabe
+
+**Stand:** `src/episodes/part2.js` + `episodes/part2/script.json` laufen komplett (`node tools/timeline.mjs --ep part2` → 58,9 s, keine Dialog-Überlappung). Final-Render und Mux stehen noch aus, weil **9 neue ElevenLabs-Zeilen (ca. 360–420 Credits)** noch nicht freigegeben sind. Wiederverwendet aus Part 1: `p2_k04`, `p2_n02`, `p2_k05`, `p2_k06` (Dateien liegen in `episodes/part2/audio/`).
+
+**Dramaturgie (Spannung durch Wendungen):** Einstein dominiert (4er-Kombo, Newton kniet) → Einstein genießt, Newton hat Angst (Zittern, Blick auf den liegengebliebenen Apfel) → Stille + Herzschlag → Einstein stürmt zum K.O.-Schlag, rutscht auf dem Apfel aus (Wendung 1) → Newton dreht auf, Einstein in der Klemme (Angst) → Newtons Wiege (Riesen-Pendel) → Einsteins Zeitdilatation (Bullet-Time, alle Treffer kommen gebündelt an, Wendung 2) → Newton am Boden, Auszählen → Newton steht auf, Einstein bekommt Angst → Einstein springt vom Seil, Newton kontert, beide Angriffe prallen zusammen → Schwerkraft fällt aus (Cliffhanger „RUNDE 3 – SCHWERELOS?“).
+
+**Neu in der Engine:** Updater-Hooks, Bullet-Time/Farbgrading (`extra`), Schwerelosigkeit (Fans, Partikel, Apfel), Musik-Level und Stille-Fenster als Audio-Events (`ctx.music`, `ctx.mute`), Sprach-Warteschlange gegen Überlappungen, Fuß-Bodenhöhe (Seil-Stand), neue Moves (Angst, Knien, Balancieren, Schreck, Ellbogen-Sprung, Schweben), neue SFX (Wiegen-Klick, Tick-Tack, Herzschlag, Ausrutscher, Zeitlupen-Sog, Schwerkraft-Ausfall).
+
+**Offen:** Credit-Freigabe → 9 Zeilen erzeugen → `dur` in `script.json` eintragen → `tools/timeline.mjs` → Render (`render-parallel`), SFX/Musik, `mux` → QA → Release.
+
 ## Stand 2026-11-08 – Part 1 (Runde 1) FERTIG: `releases/AI-FIGHT-CLUB_Part1_1080x1920.mp4`
 
 **Ergebnis:** 59,4 s, 1080×1920 (9:16), 30 fps, H.264 High, AAC 44,1 kHz Stereo, ca. 60 MB, deutsche Untertitel (animiert, mit den Stimmen synchron), keine Ränder/Wasserzeichen. Vollständig vertont: 15 ElevenLabs-Zeilen (Kommentator „Helmut Stieglbauer – Deep and Dynamic“, Newton „Victor Voss – Sinister Villain“, Einstein „Christian Plasa – Warm Voice“; Voice-IDs aus `config/voices.json`, nichts gewechselt), prozedurale SFX, prozedurale Hintergrundmusik (132 BPM, Am-F-C-G, eigene Synthese ohne Fremdmaterial), Ducking unter der Sprache, Loudnorm auf ca. −16 LUFS. Details: `docs/part1-drehbuch.md`.

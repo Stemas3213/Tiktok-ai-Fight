@@ -196,3 +196,55 @@ export function getUp(dur = 2.2) {
     P.face = k < 0.8 ? 'dizzy' : 'grit';
   } };
 }
+
+// ---------- Zusaetzliche Aktionen fuer Part 2 (Emotionen & Spannung) ----------
+export function cower(dur = 1.6) {          // Angst: zusammengekauert, Haende schuetzend am Kopf, zitternd
+  return { dur, fn(u, P) {
+    const b = bell(u, 0, 0.18, dur); const tr = Math.sin(u * 58) * 0.014 * b;
+    P.off.x += tr; P.hipsDrop += 0.22 * b; P.torsoPitch += 0.38 * b; P.headPitch += 0.22 * b; P.stance = 1 + 0.15 * b; P.bounce = 0;
+    for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? 0.2 : -0.2, 0.98, 0.3); }
+    P.face = 'shock';
+  } };
+}
+export function kneel(dur = 1.5) {          // am Boden, schwer angeschlagen, auf ein Knie gestuetzt
+  return { dur, fn(u, P) {
+    const b = smooth(seg(u, 0, 0.25)); const w = Math.sin(u * 5) * 0.04 * b;
+    P.hipsDrop += 0.52 * b; P.torsoPitch += 0.5 * b + w; P.headPitch += 0.3 * b; P.torsoRoll += w * 2; P.bounce = 0; P.stance = 1 + 0.4 * b;
+    for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? 0.32 : -0.32, 0.2, 0.32); }
+    P.face = 'hurt';
+  } };
+}
+export function balance(dur = 1.5) {        // auf dem Seil balancieren
+  return { dur, fn(u, P) {
+    const b = smooth(seg(u, 0, 0.12)); const s = Math.sin(u * 6.5);
+    P.hipsDrop += 0.12 * b; P.torsoRoll += 0.1 * s * b; P.stance = 1 + 0.2 * b; P.bounce = 0;
+    for (const sd of ['L', 'R']) { const h = P.hand[sd]; h.w = b; h.pos.set(sd === 'L' ? 0.8 : -0.8, 0.55 + 0.18 * (sd === 'L' ? s : -s), 0.05); }
+    P.face = 'grit';
+  } };
+}
+export function panic(dur = 1.0) {          // Schreck: Arme fuchteln, Augen gross
+  return { dur, fn(u, P) {
+    const b = bell(u, 0, 0.1, dur);
+    for (const sd of ['L', 'R']) { const h = P.hand[sd], s2 = sd === 'L' ? 1 : -1; h.w = b; h.pos.set(s2 * (0.5 + 0.2 * Math.sin(u * 20 + s2)), 0.9 + 0.3 * Math.sin(u * 17 + s2), 0.1 + 0.2 * Math.sin(u * 13)); }
+    P.torsoPitch += -0.25 * b; P.headPitch += -0.15 * b; P.face = 'shock'; P.hipsDrop += 0.05 * Math.sin(u * 22) * b;
+  } };
+}
+export function diveElbow(dur = 1.0, hand = 'R') {   // Sprung mit Ellbogen voraus
+  return { dur, fn(u, P) {
+    const b = smooth(seg(u, 0, 0.18)); P.bodyPitch += 0.85 * b; P.torsoPitch += 0.2 * b; P.face = 'shout';
+    const h = P.hand[hand]; h.w = b; h.pos.set(hand === 'R' ? -0.15 : 0.15, 0.78, 0.62);
+    const o = P.hand[hand === 'R' ? 'L' : 'R']; o.w = b; o.pos.set(hand === 'R' ? 0.25 : -0.25, 0.7, 0.45);
+    P.fk = { L: { hip: -0.5 * b, knee: 0.9 * b }, R: { hip: 0.35 * b, knee: 0.4 * b } };
+  } };
+}
+export function floatPose(dur = 6, seed = 0) {       // Schwerelosigkeit: Gleiten, langsames Drehen, wehende Glieder
+  return { dur, fn(u, P, f) {
+    f.airborne = true; const k = smooth(seg(u, 0, 0.6));
+    P.y += k * (1.3 + 0.35 * u) + 0.15 * Math.sin(u * 1.7 + seed);
+    P.bodyPitch += (Math.sin(u * 0.9 + seed) * 0.9 + 0.5 * u * (seed ? -1 : 1)) * k; P.bodyRoll += 0.5 * Math.sin(u * 0.7 + seed * 2) * k;
+    P.hipsY = 0.99;
+    P.fk = { L: { hip: -0.5 + 0.3 * Math.sin(u * 1.3 + seed), knee: 0.8 + 0.2 * Math.sin(u * 1.1), splay: 0.2 }, R: { hip: -0.2 + 0.3 * Math.sin(u * 1.1 + 1 + seed), knee: 0.5, splay: -0.2 } };
+    for (const sd of ['L', 'R']) { const h = P.hand[sd], s2 = sd === 'L' ? 1 : -1; h.w = 1; h.pos.set(s2 * (0.7 + 0.2 * Math.sin(u * 1.6 + s2)), 0.7 + 0.35 * Math.sin(u * 1.3 + s2 + seed), 0.1 + 0.3 * Math.sin(u * 1.1)); }
+    P.face = 'shock'; P.hairPuff = Math.max(P.hairPuff, 0.8); P.headPitch += 0.2 * Math.sin(u * 1.4 + seed);
+  } };
+}

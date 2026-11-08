@@ -48,7 +48,7 @@ export class Fighter {
     this.hairBase = this.rig.hairNodes;
     this.gloveFlash = 0;
     this.stepScale = 1;
-    this.blade = -0.42; this.guard = GUARD; this.bounceAmp = 1; this.talk = false; this.talkOpen = 'shout';
+    this.blade = -0.42; this.guard = GUARD; this.bounceAmp = 1; this.talk = false; this.talkOpen = 'shout'; this.rate = 1;
   }
 
   get headWorld() { const v = new THREE.Vector3(); this.rig.head.updateWorldMatrix(true, false); return this.rig.head.localToWorld(v.set(0, DIM.head * 0.5, 0)); }
@@ -60,6 +60,7 @@ export class Fighter {
 
   /** Haupt-Update. dt = Sim-Zeit. */
   update(dt, t) {
+    dt *= this.rate;
     this.time = t;
     const P = this.P = newPose();
     // Aktionen sammeln
@@ -180,13 +181,14 @@ export class Fighter {
     const other = { L: 'R', R: 'L' };
     for (const s of ['L', 'R']) {
       const F = this.feet[s];
-      const want = this.feetDesired(s, P, new THREE.Vector3());
+      const want = this.feetDesired(s, P, new THREE.Vector3()); want.y = this.pos.y;
       if (F.stepping) {
         F.t += dt / F.dur;
         const u = clamp(F.t);
-        F.pos.lerpVectors(F.from, F.to, smooth(u)); F.pos.y = Math.sin(Math.PI * u) * 0.16;
-        if (F.t >= 1) { F.stepping = false; F.pos.copy(F.to); F.pos.y = 0; }
+        F.pos.lerpVectors(F.from, F.to, smooth(u)); F.pos.y = this.pos.y + Math.sin(Math.PI * u) * 0.16;
+        if (F.t >= 1) { F.stepping = false; F.pos.copy(F.to); F.pos.y = this.pos.y; }
       } else {
+        F.pos.y = this.pos.y;
         const d = Math.hypot(want.x - F.pos.x, want.z - F.pos.z);
         const thr = 0.26 * this.stepScale;
         if (d > thr && !this.feet[other[s]].stepping) {

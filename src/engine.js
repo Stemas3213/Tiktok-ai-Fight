@@ -118,7 +118,11 @@ export async function createFight(world, episodeId = 'test-fight') {
     return { pos: V3(m.x + dir.x * d, h, m.z + dir.z * d), look: V3(m.x + right.x * lookOff, lookY, m.z + right.z * lookOff), fov };
   };
   // ===================== EPISODE =====================
-  const ctx = { glow, nh, eh, midP, lv, sm, frame, THREE, V3, N, E, ref, comm, fx, overlay, arena, S, st, at, act, sfx, slow, impact, shake, excite, hitstop, setHp, hp, project, horiz, apple, appleVel, appleShadow, APPLE, W, H, world, camera, scene, events, getExcite: () => exciteV };
+  const updaters = []; const extra = { sat: 0, tint: [0, 0, 0], vig: 0, zg: 0, ca: 0 };
+  const music = (level) => audio.push({ t: st.outT, kind: 'music', level });
+  const mute = (dur, fadeIn = 0.05) => audio.push({ t: st.outT, kind: 'mute', dur, fadeIn });
+  const initHp = (n, e) => { hp.N = n; hp.E = e; for (const [s, v] of [['L', n], ['R', e]]) { overlay.hp[s] = v / 100; overlay.hpShown[s] = v / 100; overlay.lag[s] = v / 100; } };
+  const ctx = { updaters, extra, music, mute, initHp, glow, nh, eh, midP, lv, sm, frame, THREE, V3, N, E, ref, comm, fx, overlay, arena, S, st, at, act, sfx, slow, impact, shake, excite, hitstop, setHp, hp, project, horiz, apple, appleVel, appleShadow, APPLE, W, H, world, camera, scene, events, getExcite: () => exciteV };
   const ep = await (await import(`./episodes/${episodeId}.js`)).build(ctx);
   const shots = ep.shots, T = ep.T;
   S.cues.forEach((c) => { if (c.at) c.sim = ep.anchors[c.at[0]] + c.at[1]; });
@@ -146,18 +150,20 @@ export async function createFight(world, episodeId = 'test-fight') {
     while (evI < events.length && events[evI].t <= t) events[evI++].fn();
     mid.pos.set((N.pos.x + E.pos.x) / 2, 0, (N.pos.z + E.pos.z) / 2);
     N.talk = S.speaking('N', st.outT); E.talk = S.speaking('E', st.outT); N.talkOpen = 'shout'; E.talkOpen = 'happy';
+    for (const u of updaters) u(t, h);
     N.update(h, t); E.update(h, t); ref.update(h, t);
     commLook.copy(midP());
     comm.update(t);
     // Apfel
-    if (apple.visible && !apple.userData.bounce) {
+    if (apple.userData.rest) { /* Apfel liegt still (vom Episoden-Code gesteuert) */ }
+    else if (apple.visible && !apple.userData.bounce) {
       const hd = E.headWorld; const u = (t - APPLE.spawn) / (APPLE.hit - APPLE.spawn); const dt_ = APPLE.hit - t;
       const y = hd.y + 0.34 + 0.5 * 9.8 * dt_ * dt_ * 1.0 + 0; const k = clamp(1 - dt_ * 0 );
       apple.position.set(hd.x, Math.min(y, APPLE.y0), hd.z); apple.rotation.set(t * 3, t * 2, 0);
       appleShadow.position.set(hd.x, 0.02, hd.z); const fall = clamp((t - APPLE.spawn) / (APPLE.hit - APPLE.spawn));
       appleShadow.material.opacity = 0.55 * smooth(fall); appleShadow.scale.setScalar(0.4 + 0.9 * smooth(fall));
     } else if (apple.userData.bounce) {
-      appleVel.y -= 9.8 * h; apple.position.addScaledVector(appleVel, h); apple.rotation.x += 6 * h; apple.rotation.z += 4 * h;
+      appleVel.y -= 9.8 * h * (1 - extra.zg); apple.position.addScaledVector(appleVel, h); apple.rotation.x += 6 * h; apple.rotation.z += 4 * h;
       if (apple.position.y < 0.34) { apple.position.y = 0.34; appleVel.y *= -0.45; appleVel.x *= 0.7; appleVel.z *= 0.7; }
       appleShadow.material.opacity = 0.5; appleShadow.position.set(apple.position.x, 0.02, apple.position.z); appleShadow.scale.setScalar(0.5);
       if (t - apple.userData.t0 > 2.5) { apple.visible = false; appleShadow.material.opacity = 0; }
@@ -166,7 +172,7 @@ export async function createFight(world, episodeId = 'test-fight') {
     const bt = t - (bell.userData.ring ?? -9); bell.rotation.z = bt >= 0 && bt < 1 ? Math.sin(bt * 60) * 0.25 * (1 - bt) : 0;
     // Publikum-Erregung
     exciteV = 0.3 + (exciteV - 0.3) * Math.exp(-h * 0.7);
-    arena.updateCrowd(t, exciteV); arena.updateSigns(t, exciteV); arena.updateRopes(st.outT);
+    arena.updateCrowd(t, exciteV, extra.zg); arena.updateSigns(t, exciteV); arena.updateRopes(st.outT);
     // Lichtshow
     const flicker = 0.85 + 0.15 * Math.sin(t * 9);
     const gl = glowAt(t);
@@ -174,13 +180,13 @@ export async function createFight(world, episodeId = 'test-fight') {
     arena.lights.rimR.color.set(gl > 0.01 ? '#ffd24a' : '#ff3b3b'); arena.lights.rimB.color.set(gl > 0.01 ? '#ffd24a' : '#3b7bff');
     arena.lights.key.color.set(gl > 0.01 ? '#ffe9a8' : '#fff4e0'); arena.jumbo.material[0].emissiveIntensity = 1.2 + 1.4 * gl;
     arena.beams.forEach((b, i) => { b.rotation.z = 0; b.material.opacity = 0.022 + 0.012 * Math.sin(t * 2 + i) + 0.02 * exciteV + 0.04 * gl; b.material.color.set(gl > 0.01 ? '#ffd24a' : ['#fff1d0', '#fff1d0', '#8fb3ff', '#ff8f8f', '#ffffff', '#ffffff'][i]); });
-    fx.step(h, t);
+    fx.gScale = 1 - extra.zg; fx.step(h, t);
     // Grading: Zeitlupe -> entsaettigt + Vignette
     const sc = scaleAt(t); const slowK = 1 - sc;
-    world.grade.uniforms.sat.value = lerp(1.08, 0.82, slowK) + (E.P && E.P.flash ? 0.0 : 0);
-    world.grade.uniforms.ca.value = st.shakeAmp * 0.03 + slowK * 0.004; world.grade.uniforms.vig.value = 0.35 + 0.35 * slowK;
+    world.grade.uniforms.sat.value = lerp(1.08, 0.82, slowK) - extra.sat;
+    world.grade.uniforms.ca.value = st.shakeAmp * 0.03 + slowK * 0.004 + extra.ca; world.grade.uniforms.vig.value = 0.35 + 0.35 * slowK + extra.vig;
     // Zeitlupe: Aura-Gold-Tint in der Aufladung
-    const ch = E.P ? E.P.flash : 0; world.grade.uniforms.tint.value.set(1 + ch * 0.25, 1 + ch * 0.1, 1 - ch * 0.15);
+    const ch = E.P ? E.P.flash : 0; world.grade.uniforms.tint.value.set(1 + ch * 0.25 + extra.tint[0], 1 + ch * 0.1 + extra.tint[1], 1 - ch * 0.15 + extra.tint[2]);
     if (t >= ep.end()) st.ended = true;
   }
 
@@ -195,7 +201,10 @@ export async function createFight(world, episodeId = 'test-fight') {
       const hh = Math.min(rem, 1 / 120);
       if (st.freeze > 0) { st.freeze -= hh; st.outT += hh; rem -= hh; continue; }
       const sc = scaleAt(st.simT); stepSim(hh * sc); st.outT += hh; rem -= hh;
-      for (const c of S.cues) if (c.outStart === null && st.simT >= c.sim) c.outStart = st.outT;
+      for (const c of S.cues) if (c.simOut === undefined && st.simT >= c.sim) c.simOut = st.outT;
+      // Sprach-Warteschlange: ein Sprecher zur Zeit (keine Ueberlappung), Reihenfolge nach Soll-Zeit
+      const lastEnd = S.cues.reduce((m, c) => c.outStart !== null ? Math.max(m, c.outStart + c.est) : m, -1);
+      if (st.outT >= lastEnd + 0.1) { const nxt = S.cues.filter((c) => c.outStart === null && c.simOut !== undefined).sort((a, b) => a.sim - b.sim)[0]; if (nxt) nxt.outStart = st.outT; }
       for (const k in ep.anchors) if (!(k in anchorOut) && st.simT >= ep.anchors[k]) anchorOut[k] = st.outT;
     }
     updateCamera(dtOut);
@@ -210,6 +219,6 @@ export async function createFight(world, episodeId = 'test-fight') {
     advance, reset: () => location.reload(),
     get duration() { return st.endOut ? st.endOut + 0.5 : 14.5; }, get done() { return st.done; }, get outT() { return st.outT; }, get simT() { return st.simT; },
     audioEvents: audio, cues: S.cues, state: st, T,
-    exportAudio() { return { duration: st.outT, anchors: anchorOut, events: audio, cues: S.cues.map((c) => ({ id: c.id, speaker: c.speaker, text: c.text, outStart: c.outStart, estDur: c.est })) }; },
+    exportAudio() { return { duration: st.outT, anchors: anchorOut, events: audio, cues: S.cues.map((c) => ({ id: c.id, speaker: c.speaker, text: c.text, outStart: c.outStart, estDur: c.est, wanted: c.simOut })) }; },
   };
 }
