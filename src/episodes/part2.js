@@ -44,7 +44,7 @@ export async function build(ctx) {
   act(N, c4.tHit + 0.6, kneel(2.6));
   cut(0, () => frame(-6, 1.7, 40, { minD: 5.0, margin: 1.0, lookY: 1.35 }));
   cut(0.9, (u) => frame(18 - 12 * u, 1.75, 36, { minD: 4.6, margin: 0.8, lookY: 1.4 }));
-  cut(c4.tHit - 0.45, (u) => orbit(N, 8, -8, u, 4.6, 1.6, 38, -0.1));
+  cut(c4.tHit - 0.45, (u) => orbit(N, 28, 14, u, 4.6, 1.6, 38, -0.1));
   cut(c4.tHit + 0.9, (u) => frame(4, 2.0, 44, { minD: 6, margin: 1.2, lookY: 1.2 }));
 
   // ===================== SMUG: Einstein genießt, Newton hat Angst =====================

@@ -1,14 +1,20 @@
 # Fortschritt
 
-## Stand 2026-11-08 – Part 2 (Runde 2): Choreografie fertig, Vertonung wartet auf Credit-Freigabe
+## Stand 2026-11-08 – Part 2 (Runde 2) FERTIG: `releases/AI-FIGHT-CLUB_Part2_1080x1920.mp4`
 
-**Stand:** `src/episodes/part2.js` + `episodes/part2/script.json` laufen komplett (`node tools/timeline.mjs --ep part2` → 58,9 s, keine Dialog-Überlappung). Final-Render und Mux stehen noch aus, weil **9 neue ElevenLabs-Zeilen (ca. 360–420 Credits)** noch nicht freigegeben sind. Wiederverwendet aus Part 1: `p2_k04`, `p2_n02`, `p2_k05`, `p2_k06` (Dateien liegen in `episodes/part2/audio/`).
+**Ergebnis:** 58,9 s, 1080×1920 (9:16), 30 fps, H.264 High, AAC 44,1 kHz Stereo, ca. 67 MB, animierte deutsche Untertitel (mit den Stimmen synchron), Stimmen unverändert (Kommentator Helmut Stieglbauer, Newton Victor Voss, Einstein Christian Plasa; IDs aus `config/voices.json`). Drehbuch/Spannungsbogen: `docs/part2-drehbuch.md`, Kontaktbogen: `docs/previews/part2-contact-sheet.png`.
 
-**Dramaturgie (Spannung durch Wendungen):** Einstein dominiert (4er-Kombo, Newton kniet) → Einstein genießt, Newton hat Angst (Zittern, Blick auf den liegengebliebenen Apfel) → Stille + Herzschlag → Einstein stürmt zum K.O.-Schlag, rutscht auf dem Apfel aus (Wendung 1) → Newton dreht auf, Einstein in der Klemme (Angst) → Newtons Wiege (Riesen-Pendel) → Einsteins Zeitdilatation (Bullet-Time, alle Treffer kommen gebündelt an, Wendung 2) → Newton am Boden, Auszählen → Newton steht auf, Einstein bekommt Angst → Einstein springt vom Seil, Newton kontert, beide Angriffe prallen zusammen → Schwerkraft fällt aus (Cliffhanger „RUNDE 3 – SCHWERELOS?“).
+**Dramaturgie (Spannung statt Effekt-Overkill):** Einstein dominiert → Newton hat Angst → Stille + Herzschlag → Einstein rutscht auf dem Apfel aus (Wendung 1) → Newton dreht auf, Einstein in der Klemme (Angst) → Newtons Wiege → Einsteins Zeitdilatation (Bullet-Time, gebündelte Treffer, Wendung 2) → Newton am Boden → steht auf, Einstein bekommt Angst → Seil-Sprung gegen Gravitations-Aufwärtshaken, Zusammenprall → Schwerkraft fällt aus (Cliffhanger „RUNDE 3 – SCHWERELOS?“). Offen bleibt, wer gewinnt.
 
-**Neu in der Engine:** Updater-Hooks, Bullet-Time/Farbgrading (`extra`), Schwerelosigkeit (Fans, Partikel, Apfel), Musik-Level und Stille-Fenster als Audio-Events (`ctx.music`, `ctx.mute`), Sprach-Warteschlange gegen Überlappungen, Fuß-Bodenhöhe (Seil-Stand), neue Moves (Angst, Knien, Balancieren, Schreck, Ellbogen-Sprung, Schweben), neue SFX (Wiegen-Klick, Tick-Tack, Herzschlag, Ausrutscher, Zeitlupen-Sog, Schwerkraft-Ausfall).
+**Ton:** 13 Sprachzeilen (9 neu, 4 aus Part 1), kurze Stille-Fenster vor dem Finish-Versuch (0,9 s) und nach der Bullet-Time (1,4 s) plus am Clash, Musik-Level-Wechsel je Szene (Drohnen/Herzschlag ↔ Beat), neue SFX (Wiegen-Klick, Tick-Tack, Herzschlag, Ausrutscher, Zeitlupen-Sog, Schwerkraft-Ausfall), Ducking, Loudnorm ca. −16 LUFS.
 
-**Offen:** Credit-Freigabe → 9 Zeilen erzeugen → `dur` in `script.json` eintragen → `tools/timeline.mjs` → Render (`render-parallel`), SFX/Musik, `mux` → QA → Release.
+**Neu in der Engine:** Updater-Hooks, Bullet-Time/Farbgrading (`extra`), Schwerelosigkeit (Fans, Partikel, Apfel), Musik-Level und Stille-Fenster als Audio-Events (`ctx.music`, `ctx.mute`), Sprach-Warteschlange gegen Überlappungen, Fuß-Bodenhöhe (Seil-Stand), neue Moves (Angst, Knien, Balancieren, Schreck, Ellbogen-Sprung, Schweben), Wiege-Prop (Pendelphysik).
+
+**ElevenLabs-Credits (vom Nutzer freigegeben):** 9 neue Zeilen = 362 Credits (k01 45, e01 46, k02 45, k03 42, n01 37, e03 42, n03 25, k07 32, k09 48).
+
+**QA:** ffprobe 1080×1920/30 fps/h264/aac/58,93 s; blackdetect/freezedetect ohne Funde; silencedetect nur an den beabsichtigten Stille-Fenstern (11,9 s und 29,2 s); Dialog-Warteschlange verhindert Überlappungen (einzelne Zeilen bis 1,4 s verzögert). Kontaktbogen 1 Bild/s geprüft. Bekannte Grenzen: letzte ~7 s dunkel/schwebend mit statischer Endkarte; Fighter am Schluss teils nur angeschnitten im Bild; Kommentator selbst kaum sichtbar; Musik synthetisch.
+
+**Nächster Schritt:** Part 3 (Runde 3, Schwerelos-Finale mit Sieger) als `src/episodes/part3.js` + `episodes/part3/script.json`.
 
 ## Stand 2026-11-08 – Part 1 (Runde 1) FERTIG: `releases/AI-FIGHT-CLUB_Part1_1080x1920.mp4`
 
