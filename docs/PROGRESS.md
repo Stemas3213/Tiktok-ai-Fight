@@ -1,14 +1,18 @@
 # Fortschritt
 
-## Stand 2026-11-08 – Part 3 (Runde 3, Finale): Inszenierung fertig, Vertonung wartet auf Credit-Freigabe
+## Stand 2026-11-09 – Part 3 (Runde 3, Finale) FERTIG: `releases/AI-FIGHT-CLUB_Part3_1080x1920.mp4`
 
-`src/episodes/part3.js` + `episodes/part3/script.json` laufen komplett (`node tools/timeline.mjs --ep part3` → ca. 57,5 s, keine Dialog-Überlappung). Final-Render/Mux stehen aus, weil **10 neue ElevenLabs-Zeilen (ca. 380–450 Credits)** noch nicht freigegeben sind (wiederverwendet: `p3_k02` aus Part 1).
+**Ergebnis:** 59,3 s, 1080×1920 (9:16), 30 fps, H.264, AAC 44,1 kHz Stereo, ca. 57 MB, deutsche Untertitel. Stimmen unverändert (Kommentator Helmut Stieglbauer, Newton Victor Voss, Einstein Christian Plasa). Drehbuch: `docs/part3-drehbuch.md`, Choreografie: `src/episodes/part3.js`, Vorschau: `docs/previews/part3-contact-sheet.png`.
 
-**Dramaturgie:** Schwerkraft kehrt zurück (löst Part-2-Cliffhanger sofort) → Einstein kracht auf den Rücken, nahezu verloren → Newton (erschöpft, sichtbar atemlos) triumphiert, Schiedsrichter schickt ihn in die Ecke → Auszählung 1–9 → **absolute Stille** (nur Herzschlag/Atmen, Nahaufnahmen von Einsteins Gesicht, Newtons Zweifel, Schiedsrichter-Hand) → bei **Neun öffnet Einstein die Augen**: „Du hast eine Sache vergessen, Isaac … Zeit ist relativ.“ → Kranfahrt vom Boden, Einstein steht mühsam auf (Haar hängt, Erschöpfung) → Newton schlägt mit letzter Kraft, Einstein geht in die Knie und kämpft sich hoch → Stille → Newtons Wild-Haken, Einstein taucht weg, **gerade Rechte** im klaren Seitenprofil, Zeitlupe, Newtons Perücke fliegt, er fällt in Zeitlupe → Auszählung, Glocke → **Einstein gewinnt**, versöhnliches Ende (Newton ohne Perücke: „Gut gekämpft, Albert.“ – „Danke, Isaac. Nur relativ knapp.“).
+**Dramaturgie:** Schwerkraft kehrt zurück (löst den Part-2-Cliffhanger sofort) → Einstein kracht auf den Rücken, Newton triumphiert (sichtbar erschöpft) → dramatische Zählung mit großen Ziffern → **absolute Stille** (nur Atem/Herzschlag) → bei NEUN öffnet Einstein die Augen: „Du hast eine Sache vergessen, Isaac … Zeit ist relativ.“ → mühsames Aufstehen → letzter Schlagabtausch, Stille, Slow-Motion-Konter (Hitstop, Schweiß, Perücke fliegt) → Newton zählt aus (5–10, Gong, Konfetti) → Einstein gewinnt, Faust-Gruß, Endkarte „EINSTEIN GEWINNT! – DAS FINALE“.
 
-**Neu:** Gesichter `closed`/`tired`/`resolve`, Haar-Hängen, abnehmbare Perücke, Moves `tired`/`breathe`/`weakRise`/`dropFrom`, Atem- und Sub-Bass-SFX, Musik-Level 5–7 (Motiv, Aufbau, Dur-Auflösung) und absolute Stille-Fenster.
+**Sprache:** Alle 13 Zeilen **neu** erzeugt (auf ausdrücklichen Wunsch des Nutzers nichts aus Part 1/2 wiederverwendet). ElevenLabs-Credits (vom Nutzer freigegeben): **482** (Einsteins Flüsterzeile mit `eleven_v3` + `[whispering]`, alle anderen `eleven_multilingual_v2`).
 
-**Offen:** Credit-Freigabe → 10 Zeilen erzeugen → `dur` eintragen → Timeline prüfen → 1080p-Render → SFX/Musik/Mux → QA → Release (`releases/AI-FIGHT-CLUB_Part3_1080x1920.mp4`). Bekannte Schwäche zum Nachschärfen vor dem Final-Render: Kameraführung direkt nach dem Treffer (Perückenflug/Fall) noch wenig lesbar.
+**Neu in der Engine/Rig:** Gesichter `closed`/`tired`/`resolve`, Haar-Hängen, abnehmbare Perücke, Moves `tired`/`breathe`/`weakRise`/`dropFrom`, Atem-/Sub-Bass-/Herzschlag-SFX, Musik-Level 5–7 (Motiv, Aufbau, Dur-Auflösung), Stille-Fenster, Belichtungsabsenkung in Gesichts-Nahaufnahmen, Fülllicht für die Siegerszene.
+
+**QA:** ffprobe 1080×1920/30 fps/h264/aac/59,30 s; blackdetect/freezedetect ohne Funde; silencedetect nur an den beabsichtigten Stille-Fenstern (≈15,7 s und ≈36,8 s); Lautheit −16,1 LUFS (Peak −4,3 dBFS; bewusst große Dynamik durch die Stille); Kontaktbogen am fertigen Video gesichtet (Newton steht am Ende wieder, kein verdecktes Bild, Untertitel/Endkarte überlappen nicht). Die Tonspur wurde nur über Messwerte/Stills geprüft, nicht abgehört.
+
+**Bekannte Schwächen:** Gesichts-Nahaufnahmen bei „Augen auf“ sind weiterhin recht hell und von Haarbüscheln teilweise verdeckt; Einsteins Gesicht ist in der Schlussszene nur im Zweierbild zu sehen (Nahaufnahmen scheiterten an Gegenlicht/Handschuhen).
 
 ## Stand 2026-11-08 – Part 2 (Runde 2) FERTIG: `releases/AI-FIGHT-CLUB_Part2_1080x1920.mp4`
 

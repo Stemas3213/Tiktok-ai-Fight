@@ -9,6 +9,9 @@ Alles ist Code: Three.js-Szene → deterministisches Frame-Rendering (Playwright
 - Drehbuch: `docs/part1-drehbuch.md`, Skript-Quelle: `episodes/part1/script.json`, Choreografie: `src/episodes/part1.js`
 - Neu bauen: `node tools/render-parallel.mjs --ep part1 --out out/part1 && node tools/make-sfx.mjs out/part1.audio.json && node tools/make-music.mjs out/part1.audio.json && node tools/mux.mjs part1 part1`
 
+## Part 3 (Runde 3, Finale) – fertige Folge
+- Video: `releases/AI-FIGHT-CLUB_Part3_1080x1920.mp4` (≈59 s), Drehbuch `docs/part3-drehbuch.md`, Choreografie `src/episodes/part3.js`. Einstein gewinnt.
+
 ## Part 2 (Runde 2) – fertige Folge
 - Video: `releases/AI-FIGHT-CLUB_Part2_1080x1920.mp4` (≈59 s), Drehbuch `docs/part2-drehbuch.md`, Choreografie `src/episodes/part2.js`.
 

@@ -64,7 +64,7 @@ Die maschinenlesbare Konfiguration liegt in [`config/voices.json`](config/voices
 - Technik: Three.js, prozedurale Animation, Rendering über `tools/render.mjs`. Details in `README.md`, Fortschritt in `docs/PROGRESS.md` (bei jeder größeren Änderung aktualisieren).
 - Dialogtexte stehen nur in `episodes/<folge>/script.json` und referenzieren Stimmen über Schlüssel aus `config/voices.json`; Voice-IDs nie im Code duplizieren.
 
-## Serie & Produktion (Stand: Part 1 und Part 2 fertig)
+## Serie & Produktion (Stand: Part 1, 2 und 3 fertig – Serie abgeschlossen)
 
 - **Serienkonzept:** Newton vs. Einstein, 3 Runden in 3 TikTok-Videos à ca. 60 s: **Part 1 = Runde 1** (Hook, Provokationen, erster Schlagabtausch, Apfel-Attacke, E=mc²-Atomfaust, Cliffhanger – *kein* endgültiger Sieger), **Part 2 = Runde 2** (Newtons Comeback, neue Spezialattacken, Wendung), **Part 3 = Runde 3** (Finale, Sieger). Jeder Part ist ein eigenständiges Video.
 - **Technik:** Eine Folge = ein Modul `src/episodes/<id>.js` (Choreografie, Kamera, Anker) + `episodes/<id>/script.json` (Dialog, Untertitel, Sprecher, Anker-Offsets) + `episodes/<id>/audio/*.mp3` (ElevenLabs). Die Engine (`src/engine.js`) bleibt gemeinsam; Charaktermodelle, Arena, Schiedsrichter, Publikum und Animationstechnik werden **unverändert wiederverwendet** (Stil nicht ändern).
@@ -76,3 +76,4 @@ Die maschinenlesbare Konfiguration liegt in [`config/voices.json`](config/voices
 - **Netzwerk-Hinweis:** In der Cloud-Umgebung „Fight“ ist `elevenlabsusercontent.com` freigeschaltet, damit erzeugte ElevenLabs-Audiodateien geladen werden können.
 
 - **Part 2 (fertig):** Spannungsregeln für die Serie: Wendungen statt reiner Effekte, Schwächen klar zeigen (Angst/Wut/Schadenfreude), kurze Stille vor großen Treffern, Dialog bremst den Kampf nicht, Cliffhanger zum nächsten Teil. Part 3 beginnt im Schwerelos-Zustand und muss einen Sieger bestimmen.
+- **Part 3 (fertig):** Finale mit Sieger Einstein (Zählung, absolute Stille, „Zeit ist relativ“-Comeback, entscheidender Konter). Alle 13 Zeilen neu erzeugt (482 Credits), siehe `docs/part3-drehbuch.md`.
